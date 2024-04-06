@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta rf="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GearQuester</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="Header">
+    <div class="Logo">
+      Gear<span class="gear">&#9881;</span>uester
+    </div>
+    <div class="Icones">
+      <div class="HelpDesk">
+        <p id="chat">&#128172;</p>
+        <a href="">
+          <p>Central de Atendimento↓</p>
+        </a>
+      </div>
+      <div class="Perfil">
+        <div id="container_texto">
+          <p>Bem vindo(a)</p> 
+        </div>
+        <div id="container_perfil">
+          <a class="link" href="login.ejs">Entrar </a> <p> ou </p><a class="link" href="/signup">Cadastrar↓</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="SideBar">
+  <a href="#">Home</a>
+  <a href="#">Serviços</a>
+  <a href="#">Sobre nós</a>
+  <a href="#">Contatos</a>
+</div>
+  <div class="SideBar_equipaments">
+      <a href="#">Switch</a>
+      <a href="#">Servidor</a>
+      <a href="#">Access Point</a>
+      <a href="#">Firewall</a>
+  </div>
+    <div class="container_conteudo">
+      <div class="form-container">
+          <h2>Cadastrar </h2>
+          <form id="signupForm">
+            <div class="form-group">
+              <label for="rf">RF:</label>
+              <input type="text" id="rf" name="rf" placeholder="Enter your rf" required autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label for="password">Senha:</label>
+              <input type="password" id="password" name="password" placeholder="password" required>
+            </div>
+            <div class="form-group">
+              <label for="cpf">Cpf:</label>
+              <input type="cpf" id="cpf" name="cpf" placeholder="cpf" required>
+            </div>
+            <button type="submit" class="submit-btn">Cadastrar</button>
+          </form>
+        </div>
+    </div>
+      <div class="footer">
+        <div class="column-apresentation">
+          <div class="Logo_footer">
+            Gear<span class="gear">&#9881;</span>uester
+          </div>
+          <div class="text-apresentation"> 
+            <p>GearQuester é a sua fonte confiável para os mais avançados equipamentos</p> 
+          </div>
+        </div>
+  
+        <div class="links">
+          <a href="#">Home</a>
+          <a href="#">Serviços</a>
+          <a href="#">Sobre nós</a>
+          <a href="#">Contatos</a>
+        </div>
+      </div>
+
+    <script>
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const data = {
+            rf: document.getElementById('rf').value,
+            password: document.getElementById('password').value,
+            cpf: document.getElementById('cpf').value,
+        };
+
+        fetch('/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+    </script>
+
+</body>
+</html>
