@@ -136,8 +136,7 @@
   }
 
   #messageContainer {
-    color: red; /* Cor padrão para mensagens de erro */
-    margin: px 0;
+    margin: 1px 0px;
     font-weight: bold;
 }
 

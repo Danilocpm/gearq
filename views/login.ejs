@@ -57,7 +57,7 @@
             <label for="password">Senha:</label></br>
             <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
           </div>
-          
+          <div id="messageContainer"></div>
           <button type="submit" class="submit-btn">Login</button>
         </form>
       </div>
@@ -80,5 +80,36 @@
         <a href="#">Contatos</a>
       </div>
     </div>
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const data = {
+            rf: document.getElementById('rf').value,
+            password: document.getElementById('password').value,
+        };
+
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            const messageContainer = document.getElementById('messageContainer');
+            if (data.redirectURL) {
+                window.location.href = data.redirectURL;
+            } else if (data.message) {
+                messageContainer.textContent = data.message; 
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            document.getElementById('messageContainer').textContent = 'Ocorreu um erro durante o login.';
+        });
+      });
+    </script>
 </body>
 </html>
