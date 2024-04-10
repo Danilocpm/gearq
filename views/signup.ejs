@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta rf="viewport" content="width=device-width, initial-scale=1.0">
     <title>GearQuester</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/signup.css">
 </head>
 <body>
   <div class="Header">
@@ -44,17 +44,30 @@
       <div class="form-container">
           <h2>Cadastrar </h2>
           <form id="signupForm">
-            <div class="form-group">
-              <label for="rf">RF:</label>
-              <input type="text" id="rf" name="rf" placeholder="Enter your rf" required autocomplete="off">
+            <div class="container1">
+              <div class="form-group">
+                <label for="rf">RF:</label>
+                <input type="text" id="rf" name="rf" placeholder="Enter your rf" required autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Name" required>
+              </div>
+              <div class="form-group">
+                <label for="cpf">Cpf:</label>
+                <input type="cpf" id="cpf" name="cpf" placeholder="cpf" required>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="password">Senha:</label>
-              <input type="password" id="password" name="password" placeholder="password" required>
-            </div>
-            <div class="form-group">
-              <label for="cpf">Cpf:</label>
-              <input type="cpf" id="cpf" name="cpf" placeholder="cpf" required>
+            
+            <div class="container2">
+              <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="password" required>
+              </div>
+              <div class="form-group">
+                <label for="authenticPassword">Authentic Password:</label>
+                <input type="authenticPassword" id="authenticPassword" name="Authentic Password" placeholder="authenticPassword" required>
+              </div>
             </div>
             <button type="submit" class="submit-btn">Cadastrar</button>
           </form>
