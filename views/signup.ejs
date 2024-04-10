@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta rf="viewport" content="width=device-width, initial-scale=1.0">
     <title>GearQuester</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/signup.css">
 </head>
 <body>
   <div class="Header">
@@ -23,7 +23,7 @@
           <p>Bem vindo(a)</p> 
         </div>
         <div id="container_perfil">
-          <a class="link" href="login.ejs">Entrar </a> <p> ou </p><a class="link" href="/signup">Cadastrar↓</a>
+          <a class="link" href="/">Entrar </a> <p> ou </p><a class="link" href="/signup">Cadastrar↓</a>
         </div>
       </div>
     </div>
@@ -44,20 +44,34 @@
       <div class="form-container">
           <h2>Cadastrar </h2>
           <form id="signupForm">
-            <div class="form-group">
-              <label for="rf">RF:</label>
-              <input type="text" id="rf" name="rf" placeholder="Enter your rf" required autocomplete="off">
+            <div class="container1">
+              <div class="form-group">
+                <label for="rf">RF:</label>
+                <input type="text" id="rf" name="rf" placeholder="Digite seu RF" required autocomplete="off" required>
+              </div>
+              <div class="form-group">
+                <label for="name">Nome completo:</label>
+                <input type="text" id="name" name="name" placeholder="Nome completo" required>
+              </div>
+              <div class="form-group">
+                <label for="cpf">Cpf:</label>
+                <input type="cpf" id="cpf" name="cpf" placeholder="CPF" required>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="password">Senha:</label>
-              <input type="password" id="password" name="password" placeholder="password" required>
-            </div>
-            <div class="form-group">
-              <label for="cpf">Cpf:</label>
-              <input type="cpf" id="cpf" name="cpf" placeholder="cpf" required>
+            
+            <div class="container2">
+              <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" placeholder="Senha" required>
+              </div>
+              <div class="form-group">
+                <label for="authenticPassword">Confirmar Senha:</label>
+                <input type="password" id="authenticPassword" name="authenticPassword" placeholder="Confirmar Senha" required>
+              </div>
             </div>
             <button type="submit" class="submit-btn">Cadastrar</button>
           </form>
+          <div id="messageContainer"></div>
         </div>
     </div>
       <div class="footer">
@@ -78,33 +92,37 @@
         </div>
       </div>
 
-    <script>
-    document.getElementById('signupForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+      <script>
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-        const data = {
-            rf: document.getElementById('rf').value,
-            password: document.getElementById('password').value,
-            cpf: document.getElementById('cpf').value,
-        };
+            const data = {
+                rf: document.getElementById('rf').value,
+                name: document.getElementById('name').value, 
+                cpf: document.getElementById('cpf').value,
+                password: document.getElementById('password').value,
+                authenticPassword: document.getElementById('authenticPassword').value, 
+            };
 
-        fetch('/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                alert(data.message);
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
+            fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const messageContainer = document.getElementById('messageContainer');
+                if (data.message) {
+                    messageContainer.textContent = data.message; 
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.getElementById('messageContainer').textContent = 'Ocorreu um erro durante o cadastro.';
+            });
         });
-    });
     </script>
 
 </body>

@@ -127,6 +127,11 @@
   box-shadow: 5px;
 }
 
+#messageContainer {
+  margin: 1px 0px;
+  font-weight: bold;
+}
+
 .submit-btn {
   width: 14vw;
   height: 2vw;
