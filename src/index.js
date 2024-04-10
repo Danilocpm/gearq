@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import collection from "./config.js";
+import ItemCollection from "./config_item.js";
 import bcrypt from 'bcrypt';
 import inquirer from 'inquirer';
 
@@ -34,11 +35,20 @@ app.get("/admin", (req, res) => {
     res.render("admin");
 });
 
-app.get("/makeadmin", (req, res) => {
-    res.render("makeadmin");
+app.get("/menu", (req, res) => {
+    res.render("menu");
 });
 
-
+app.post("/menu", async (req, res) => {
+    const action = req.body.action;
+    if (action === 'Criar um novo item') {
+        res.render("createItem");
+    } else if (action === 'Promover um usuário a administrador') {
+        res.render("makeAdmin");
+    } else if (action === 'Sair') {
+        res.redirect("/login");
+    }
+});
 
 // Register User
 app.post("/signup", async (req, res) => {
@@ -117,6 +127,33 @@ app.post("/admin", async (req, res) => {
     }
 });
 
+// Create Item
+app.post('/createitem', async (req, res) => {
+    const { nome, descricao, preco } = req.body;
+
+    // Verifique se todos os campos necessários estão presentes
+    if (!nome || !descricao || !preco) {
+        return res.status(400).json({ message: 'Por favor, preencha todos os campos necessários.' });
+    }
+
+    // Crie um novo item com os dados do corpo da solicitação
+    const newItem = new ItemCollection({
+        nome,
+        descricao,
+        preco
+    });
+
+    try {
+        // Salve o novo item no banco de dados
+        const savedItem = await newItem.save();
+
+        // Envie uma resposta com o item salvo
+        res.json(savedItem);
+    } catch (err) {
+        // Envie uma resposta de erro se algo der errado
+        res.status(500).json({ message: err.message });
+    }
+});
 
 // Promote
 
