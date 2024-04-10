@@ -47,26 +47,26 @@
             <div class="container1">
               <div class="form-group">
                 <label for="rf">RF:</label>
-                <input type="text" id="rf" name="rf" placeholder="Enter your rf" required autocomplete="off">
+                <input type="text" id="rf" name="rf" placeholder="Enter your RF" required autocomplete="off" required>
               </div>
               <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" placeholder="Name" required>
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" placeholder="Full Name" required>
               </div>
               <div class="form-group">
                 <label for="cpf">Cpf:</label>
-                <input type="cpf" id="cpf" name="cpf" placeholder="cpf" required>
+                <input type="cpf" id="cpf" name="cpf" placeholder="CPF" required>
               </div>
             </div>
             
             <div class="container2">
               <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="password" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
               </div>
               <div class="form-group">
                 <label for="authenticPassword">Authentic Password:</label>
-                <input type="authenticPassword" id="authenticPassword" name="Authentic Password" placeholder="authenticPassword" required>
+                <input type="password" id="authenticPassword" name="AuthenticPassword" placeholder="Authentic Password" required>
               </div>
             </div>
             <button type="submit" class="submit-btn">Cadastrar</button>
@@ -91,33 +91,7 @@
         </div>
       </div>
 
-    <script>
-    document.getElementById('signupForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const data = {
-            rf: document.getElementById('rf').value,
-            password: document.getElementById('password').value,
-            cpf: document.getElementById('cpf').value,
-        };
-
-        fetch('/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                alert(data.message);
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    });
+    <script src="/src/signup.js">
     </script>
 
 </body>
