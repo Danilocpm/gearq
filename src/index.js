@@ -129,7 +129,7 @@ app.post("/admin", async (req, res) => {
 
 // Create Item
 app.post('/createitem', async (req, res) => {
-    const { nome, descricao, portas, tipos_de_portas, portas_adicionais, tipos_de_portas_adicionais, protocolos, altura, largura, memoria, processador, MAC, performance, Capacidade_de_encaminhamento, capacidade_de_comutação, Frequência, watts } = req.body;
+    const { nome, descricao, portas, tipos_de_portas, portas_adicionais, tipos_de_portas_adicionais, protocolos, altura, largura, memoria, processador, MAC, performance, Capacidade_de_encaminhamento, capacidade_de_computacao, Frequência, watts } = req.body;
 
     // Verifique se todos os campos necessários estão presentes
     if (!nome || !descricao) {
@@ -152,7 +152,7 @@ app.post('/createitem', async (req, res) => {
         MAC,
         performance,
         Capacidade_de_encaminhamento,
-        capacidade_de_comutação,
+        capacidade_de_computacao,
         Frequência,
         watts
     });

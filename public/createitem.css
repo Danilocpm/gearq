@@ -1,0 +1,54 @@
+
+h2 {
+    text-align: center;
+    font-size: 36px;
+    color: black;
+    padding: 10px;
+    border: 2px solid #FFD700;
+    background-color: #FFD700;
+    font-family: 'Arial', sans-serif;
+    border-radius: 10px;
+}
+
+body {
+    background-color: black;
+    color: white; /* Define a cor do texto como branca para garantir a legibilidade */
+    padding-top: 50px; /* Adiciona um espaço no topo do body */
+    padding-bottom: 50px; /* Adiciona um espaço na parte inferior do body */
+    
+}
+
+.container {
+    background-color: #333; /* Define a cor de fundo do contêiner como um cinza escuro */
+    color: white; /* Define a cor do texto do contêiner como branca */
+    padding: 20px; /* Adiciona algum preenchimento ao redor do conteúdo do contêiner */
+    border-radius: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px; /* Adiciona algum espaço abaixo de cada grupo de formulário */
+    margin-left: 10px;
+    margin-right: 10px;
+    
+}
+
+.form-control {
+    background-color: #555; /* Define a cor de fundo dos controles de formulário como um cinza mais claro */
+    color: white; /* Define a cor do texto dos controles de formulário como branca */
+}
+
+.btn-default {
+    background-color: #FFD700; /* Define a cor de fundo do botão como um cinza médio */
+    color: black; /* Define a cor do texto do botão como branca */
+    display: block;
+    margin: 0 auto;
+    transition: all 0.3s ease 0s;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-default:hover {
+    background-color: orangered; /* Muda a cor de fundo quando o mouse passa por cima */
+    box-shadow: 0px 15px 20px rgba(245, 163, 40, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}

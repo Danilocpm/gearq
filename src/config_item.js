@@ -67,7 +67,7 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    capacidade_de_comutação: {
+    capacidade_de_computacao: {
         type: String,
         required: false
     },
