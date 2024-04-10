@@ -42,30 +42,29 @@ app.get("/makeadmin", (req, res) => {
 
 // Register User
 app.post("/signup", async (req, res) => {
+    const { rf, name, cpf, password, authenticPassword } = req.body;
 
-    const data = {
-        rf: req.body.rf,
-        password: req.body.password,
-        cpf: req.body.cpf,
+    if(password !== authenticPassword) {
+        return res.status(400).json({ message: "As senhas não correspondem" });
     }
 
-    // Check if the username or cpf already exists in the database
-    const existingRF = await collection.findOne({$or: [{ rf: data.rf }, { cpf: data.cpf }]});
+    try {
+        const existingRF = await collection.findOne({ $or: [{ rf }, { cpf }] });
 
-    if (existingRF) {
-        res.status(409).json({message: 'RF or CPF already exists. Please choose a different username or CPF.'});
-    } else {
-        // Hash the password using bcrypt
-        const saltRounds = 10; // Number of salt rounds for bcrypt
-        const hashedPassword = await bcrypt.hash(data.password, saltRounds);
-
-        data.password = hashedPassword; // Replace the original password with the hashed one
-
-        const rfdata = await collection.insertMany(data);
-        console.log(rfdata);
-        res.status(200).json({message: 'User created successfully.'});
+        if (existingRF) {
+            return res.status(409).json({ message: 'RF or CPF already exists. Please choose a different username or CPF.' });
+        } else {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const user = new collection({ rf, name, cpf, password: hashedPassword });
+            await user.save();
+            return res.status(200).json({ message: 'User created successfully.' });
+        }
+    } catch (error) {
+        console.error('Signup Error:', error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 
 // Login user 

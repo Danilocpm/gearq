@@ -15,15 +15,19 @@ const Loginschema = new mongoose.Schema({
         type:String,
         required: true
     },
+    name: {
+        type: String,
+        required: true
+    },
+    
+    cpf: {
+        type: String,
+        required: true
+    },  
     password: {
         type: String,
         required: true
     },
-    cpf: {
-        type: String,
-        required: true
-
-    },  
     isAdmin: {
         type: Boolean,
         default: false

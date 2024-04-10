@@ -135,6 +135,13 @@
     
   }
 
+  #messageContainer {
+    color: red; /* Cor padrão para mensagens de erro */
+    margin: px 0;
+    font-weight: bold;
+}
+
+
   .container1{
     margin-right: -5vw;
   }
