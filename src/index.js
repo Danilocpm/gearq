@@ -18,7 +18,7 @@ app.set("view engine", "ejs");
 
 
 
-app.get("/login.ejs", (req, res) => {
+app.get("/", (req, res) => {
     res.render("login");
 });
 
