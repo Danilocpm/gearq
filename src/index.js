@@ -129,10 +129,10 @@ app.post("/admin", async (req, res) => {
 
 // Create Item
 app.post('/createitem', async (req, res) => {
-    const { nome, descricao, preco } = req.body;
+    const { nome, descricao, portas, tipos_de_portas, portas_adicionais, tipos_de_portas_adicionais, protocolos, altura, largura, memoria, processador, MAC, performance, Capacidade_de_encaminhamento, capacidade_de_comutação, Frequência, watts } = req.body;
 
     // Verifique se todos os campos necessários estão presentes
-    if (!nome || !descricao || !preco) {
+    if (!nome || !descricao) {
         return res.status(400).json({ message: 'Por favor, preencha todos os campos necessários.' });
     }
 
@@ -140,7 +140,21 @@ app.post('/createitem', async (req, res) => {
     const newItem = new ItemCollection({
         nome,
         descricao,
-        preco
+        portas,
+        tipos_de_portas,
+        portas_adicionais,
+        tipos_de_portas_adicionais,
+        protocolos,
+        altura,
+        largura,
+        memoria,
+        processador,
+        MAC,
+        performance,
+        Capacidade_de_encaminhamento,
+        capacidade_de_comutação,
+        Frequência,
+        watts
     });
 
     try {

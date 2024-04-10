@@ -1,9 +1,229 @@
-<form action="/createItem" method="POST">
-    <label for="nome">Nome:</label><br>
-    <input type="text" id="nome" name="nome"><br>
-    <label for="descricao">Descrição:</label><br>
-    <input type="text" id="descricao" name="descricao"><br>
-    <label for="preco">Preço:</label><br>
-    <input type="text" id="preco" name="preco"><br>
-    <input type="submit" value="Criar Item">
+<div class="container">
+
+    <form class="well form-horizontal" action="/createitem" method="post"  id="create_item_form">
+<fieldset>
+
+<!-- Form Name -->
+<legend><center><h2><b>Criação de Item</b></h2></center></legend><br>
+
+<!-- Text input-->
+
+<div class="form-group">
+  <label class="col-md-4 control-label">Nome do Item</label>  
+  <div class="col-md-4 inputGroupContainer">
+  <div class="input-group">
+  <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+  <input  name="nome" placeholder="Nome do Item" class="form-control"  type="text">
+    </div>
+  </div>
+</div>
+
+<!-- Text input-->
+
+<div class="form-group">
+    <label class="col-md-4 control-label">Descricao do Item</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+    <input  name="descricao" placeholder="Descricao do Item" class="form-control"  type="text">
+      </div>
+    </div>
+  </div>
+
+<!-- Text input-->
+
+<div class="form-group">
+    <label class="col-md-4 control-label">Portas</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+    <input  name="portas" placeholder="Portas" class="form-control"  type="text">
+      </div>
+    </div>
+  </div>
+
+  <!-- Text input-->
+
+<div class="form-group">
+    <label class="col-md-4 control-label">Tipo de Portas</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+    <input  name="tipo_de_portas" placeholder="Tipo de Porta" class="form-control"  type="text">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Text input-->
+  
+  <div class="form-group">
+      <label class="col-md-4 control-label">Portas Adicionais</label>  
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+      <input  name="portas_adicionais" placeholder="Portas Adicionais" class="form-control"  type="text">
+        </div>
+      </div>
+    </div>
+  
+  <!-- Text input-->
+  
+  <div class="form-group">
+      <label class="col-md-4 control-label">Tipo de Portas Adicionais</label>  
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+      <input  name="tipo_de_portas_adicionais" placeholder="Tipo de Portas Adicionais" class="form-control"  type="text">
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Text input-->
+
+<div class="form-group">
+    <label class="col-md-4 control-label">Protocolos</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+    <input  name="protocolos" placeholder="Protocolos" class="form-control"  type="text">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Text input-->
+  
+  <div class="form-group">
+      <label class="col-md-4 control-label">Altura</label>  
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+      <input  name="altura" placeholder="altura" class="form-control"  type="text">
+        </div>
+      </div>
+    </div>
+  
+  <!-- Text input-->
+  
+  <div class="form-group">
+      <label class="col-md-4 control-label">Largura</label>  
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+      <input  name="largura" placeholder="Largura" class="form-control"  type="text">
+        </div>
+      </div>
+    </div>
+
+    <!-- Text input-->
+
+<div class="form-group">
+    <label class="col-md-4 control-label">Memoria</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+    <input  name="memoria" placeholder="Memoria" class="form-control"  type="text">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Text input-->
+  
+  <div class="form-group">
+      <label class="col-md-4 control-label">Processador</label>  
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+      <input  name="processador" placeholder="Processador" class="form-control"  type="text">
+        </div>
+      </div>
+    </div>
+  
+  <!-- Text input-->
+  
+  <div class="form-group">
+      <label class="col-md-4 control-label">MAC</label>  
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+      <input  name="MAC" placeholder="MAC" class="form-control"  type="text">
+        </div>
+      </div>
+    </div>
+
+    <!-- Text input-->
+
+<div class="form-group">
+    <label class="col-md-4 control-label">Performance</label>  
+    <div class="col-md-4 inputGroupContainer">
+    <div class="input-group">
+    <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+    <input  name="performance" placeholder="performance" class="form-control"  type="text">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Text input-->
+  
+  <div class="form-group">
+      <label class="col-md-4 control-label">Capacidade de Encaminhamento</label>  
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+      <input  name="Capacidade_de_encaminhamento" placeholder="Capacidade de Encaminhamento" class="form-control"  type="text">
+        </div>
+      </div>
+    </div>
+  
+  <!-- Text input-->
+  
+  <div class="form-group">
+      <label class="col-md-4 control-label">Capacidade de Comutação</label>  
+      <div class="col-md-4 inputGroupContainer">
+      <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+      <input  name="capacidade_de_comutação" placeholder="Capacidade de Comutação" class="form-control"  type="text">
+        </div>
+      </div>
+    </div>
+
+    <!-- Text input-->
+  
+    <div class="form-group">
+        <label class="col-md-4 control-label">Frequência</label>  
+        <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+        <input  name="Frequência" placeholder="Frequência" class="form-control"  type="text">
+          </div>
+        </div>
+      </div>
+
+    <!-- Text input-->
+    
+      <div class="form-group">
+        <label class="col-md-4 control-label">Watts</label>  
+        <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+        <input  name="watts" placeholder="watts" class="form-control"  type="text">
+          </div>
+        </div>
+      </div>
+
+<!-- Success message -->
+<div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Success!.</div>
+
+
+<!-- Button -->
+<div class="form-group">
+    <label class="col-md-4 control-label"></label>
+    <div class="col-md-4"><br>
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button type="submit" class="btn btn-warning" >&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSUBMIT <span class="glyphicon glyphicon-send"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
+    </div>
+  </div>
+
+</fieldset>
 </form>
+</div>
+

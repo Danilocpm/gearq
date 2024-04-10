@@ -19,11 +19,66 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    preco: {
-        type: Number,
-        required: true
+    portas: {
+        type: String,
+        required: false
     },
-    // Adicione outros campos conforme necessário
+    tipos_de_portas: {
+        type: String,
+        required: false
+    },
+    portas_adicionais: {
+        type: String,
+        required: false
+    },
+    tipos_de_portas_adicionais: {
+        type: String,
+        required: false
+    },
+    protocolos: {
+        type: String,
+        required: false
+    },
+    altura: {
+        type: Number,
+        required: false
+    },
+    largura: {
+        type: Number,
+        required: false
+    },
+    memoria: {
+        type: String,
+        required: false
+    },
+    processador: {
+        type: String,
+        required: false
+    },
+    MAC: {
+        type: String,
+        required: false
+    },
+    performance: {
+        type: String,
+        required: false
+    },
+    Capacidade_de_encaminhamento: {
+        type: String,
+        required: false
+    },
+    capacidade_de_comutação: {
+        type: String,
+        required: false
+    },
+    Frequência: {
+        type: String,
+        required: false
+    },
+    watts: {
+        type: Number,
+        required: false
+    }
 });
 
 // collection part
