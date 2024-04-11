@@ -20,7 +20,7 @@ body {
 
 .container {
     background-color: #333; /* Define a cor de fundo do contêiner como um cinza escuro */
-    color: white; /* Define a cor do texto do contêiner como branca */
+    color: #FFD700; /* Define a cor do texto do contêiner como branca */
     padding: 20px; /* Adiciona algum preenchimento ao redor do conteúdo do contêiner */
     border-radius: 10px;
 }

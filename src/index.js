@@ -158,22 +158,23 @@ app.post('/createitem', async (req, res) => {
 
 // Promote
 
-app.post("/makeAdmin", async (req, res) => {
+app.post('/makeAdmin', async (req, res) => {
     try {
         const user = await collection.findOne({ rf: req.body.rf });
         if (!user) {
-            res.send("RF não encontrado")
+            res.json({ success: false, message: 'Usuário não encontrado' });
+            return;
         }
-        else {
-            user.isAdmin = true;
-            await user.save();
-            res.send("Usuario é agora um administrador");
-        }
+
+        user.isAdmin = true;
+        await user.save();
+
+        res.json({ success: true });
+    } catch (err) {
+        console.error(err);
+        res.json({ success: false, message: 'Ocorreu um erro' });
     }
-    catch {
-        res.send("Ocorreu um erro");
-    }
-}); 
+});
 
 
 

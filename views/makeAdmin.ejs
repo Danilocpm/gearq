@@ -1,14 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Make Admin</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/makeAdmin.css">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
-    <h1>Promover usuário a administrador</h1>
-    <form action="/makeAdmin" method="post">
-        <label for="rf">RF:</label><br>
-        <input type="text" id="rf" name="rf"><br>
-        <input type="submit" value="Promover a administrador">
-    </form>
+    <div class="container">
+        <h1 class="mt-5">Make Admin</h1>
+
+        <div class="form-group mt-3">
+            <label for="rf">RF do Usuário:</label>
+            <input type="text" class="form-control" id="rf" placeholder="Insira o RF aqui">
+        </div>
+
+        <button id="makeAdmin" class="btn btn-primary mt-3">Make Admin</button>
+    </div>
+
+
+
+    <script>
+        document.getElementById('makeAdmin').addEventListener('click', function() {
+            var rf = document.getElementById('rf').value;
+            if (!rf) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Por favor, insira o RF do usuário!'
+                });
+                return;
+            }
+    
+            Swal.fire({
+                title: 'Você tem certeza?',
+                text: "Você quer tornar o usuário com RF " + rf + " um administrador?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, tornar administrador!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Aqui você pode fazer uma chamada AJAX para a rota /makeAdmin do seu servidor
+                    fetch('/makeAdmin', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ rf: rf }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire(
+                                'Feito!',
+                                'O usuário com RF ' + rf + ' agora é um administrador.',
+                                'success'
+                            )
+                        } else {
+                            Swal.fire(
+                                'Erro!',
+                                'Não foi possível tornar o usuário um administrador.',
+                                'error'
+                            )
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                }
+            })
+        });
+    </script>
 </body>
 </html>
+
