@@ -4,6 +4,7 @@ import collection from "./config.js";
 import ItemCollection from "./config_item.js";
 import bcrypt from 'bcrypt';
 import inquirer from 'inquirer';
+import Swal from 'sweetalert2'
 
 const app = express();
 // convert data into json format
@@ -31,23 +32,12 @@ app.get("/adminlogin", (req, res) => {
     res.render("adminlogin");
 });
 
-app.get("/admin", (req, res) => {
-    res.render("admin");
-});
-
 app.get("/menu", (req, res) => {
     res.render("menu");
 });
 
-app.post("/menu", async (req, res) => {
-    const action = req.body.action;
-    if (action === 'Criar um novo item') {
-        res.render("createItem");
-    } else if (action === 'Promover um usuário a administrador') {
-        res.render("makeAdmin");
-    } else if (action === 'Sair') {
-        res.redirect("/login");
-    }
+app.get("/createitem", (req, res) => {
+    res.render("createitem");
 });
 
 // Register User
@@ -116,14 +106,14 @@ app.post("/adminlogin", async (req, res) => {
 
 
 // Menu Adm
-app.post("/admin", async (req, res) => {
-    const option = req.body.option;
-    switch (option) {
-        case 'promote':
-            res.redirect("/makeadmin");
-            break;
-        case 'exit':
-            process.exit();
+app.post("/menu", async (req, res) => {
+    const action = req.body.action;
+    if (action === 'Criar um novo item') {
+        res.render("createitem");
+    } else if (action === 'Promover um usuário a administrador') {
+        res.render("makeAdmin");
+    } else if (action === 'Sair') {
+        res.redirect("/login");
     }
 });
 
@@ -158,14 +148,11 @@ app.post('/createitem', async (req, res) => {
     });
 
     try {
-        // Salve o novo item no banco de dados
-        const savedItem = await newItem.save();
-
-        // Envie uma resposta com o item salvo
-        res.json(savedItem);
+        await newItem.save();
+        return res.status(200).json({message: 'Item criado com sucesso'});
     } catch (err) {
         // Envie uma resposta de erro se algo der errado
-        res.status(500).json({ message: err.message });
+        return res.status(500).json({ message: err.message });
     }
 });
 

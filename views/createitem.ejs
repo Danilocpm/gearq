@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/createitem.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -107,6 +109,64 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
+<script src="scr/index.js"></script>
+
+
+<script>document.querySelector('form').addEventListener('submit', function(event) {
+  // Isso impede que o formulário seja enviado normalmente
+  event.preventDefault();
+
+  let itemData = {
+    nome: document.getElementById('nome').value,
+    descricao: document.getElementById('descricao').value,
+    portas: document.getElementById('portas').value,
+    tipos_de_portas: document.getElementById('tipos_de_portas').value,
+    portas_adicionais: document.getElementById('portas_adicionais').value,
+    tipos_de_portas_adicionais: document.getElementById('tipos_de_portas_adicionais').value,
+    protocolos: document.getElementById('protocolos').value,
+    altura: document.getElementById('altura').value,
+    largura: document.getElementById('largura').value,
+    memoria: document.getElementById('memoria').value,
+    processador: document.getElementById('processador').value,
+    MAC: document.getElementById('MAC').value,
+    performance: document.getElementById('performance').value,
+    Capacidade_de_encaminhamento: document.getElementById('Capacidade_de_encaminhamento').value,
+    capacidade_de_computacao: document.getElementById('capacidade_de_computacao').value,
+    Frequência: document.getElementById('Frequência').value,
+    watts: document.getElementById('watts').value
+  };
+
+  fetch('/createitem', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(itemData),
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Erro na rede!');
+      }
+      return response.json();
+  })
+  .then(data => {
+      Swal.fire({
+          icon: 'success',
+          title: 'Sucesso',
+          text: data.message
+      });
+  })
+  .catch((error) => {
+      Swal.fire({
+          icon: 'error',
+          title: 'Erro na criação',
+          text: error.message
+      });
+      console.error('Error:', error);
+  });
+});
+</script>
 
 </body>
 </html>
