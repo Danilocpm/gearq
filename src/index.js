@@ -40,6 +40,10 @@ app.get("/createitem", (req, res) => {
     res.render("createitem");
 });
 
+app.get("/makeAdmin", (req, res) => {
+    res.render("makeAdmin");
+});
+
 // Register User
 app.post("/signup", async (req, res) => {
     const { rf, name, cpf, password, authenticPassword } = req.body;
@@ -91,18 +95,18 @@ app.post("/login", async (req, res) => {
 
 // Login adm
 app.post("/adminlogin", async (req, res) => {
-    // Supondo que você tenha uma função 'getUser' que retorna um usuário com base no nome de usuário
     const user = await collection.findOne({rf: req.body.rf});
     if (user && await bcrypt.compare(req.body.password, user.password)) {
         if (user.isAdmin) {
-            // Redirecionar para a área de gestão se o usuário for um administrador
-            res.redirect("admin");
+            res.status(200).json({redirect: '/menu'});
         } else {
-            // Redirecionar de volta para a página de login do administrador se o usuário não for um administrador
             res.status(409).json({message: 'Este usuario nao possui permissao'});
         }
-    } 
+    } else {
+        res.status(401).json({message: 'Credenciais invalidas'});
+    }
 });
+
 
 
 // Menu Adm
@@ -113,7 +117,7 @@ app.post("/menu", async (req, res) => {
     } else if (action === 'Promover um usuário a administrador') {
         res.render("makeAdmin");
     } else if (action === 'Sair') {
-        res.redirect("/login");
+        res.redirect("/home");
     }
 });
 
