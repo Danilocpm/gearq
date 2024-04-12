@@ -20,7 +20,7 @@ app.set("view engine", "ejs");
 
 
 
-app.get("/", (req, res) => {
+app.get("/login", (req, res) => {
     res.render("login");
 });
 
@@ -44,6 +44,10 @@ app.get("/makeAdmin", (req, res) => {
     res.render("makeAdmin");
 });
 
+app.get("/home", (req, res) => {
+    res.render("home");
+});
+
 // Register User
 app.post("/signup", async (req, res) => {
     const { rf, name, cpf, password, authenticPassword } = req.body;
@@ -59,7 +63,7 @@ app.post("/signup", async (req, res) => {
             return res.status(409).json({ message: 'RF ou CPF já cadastrado.' });
         } else {
             const hashedPassword = await bcrypt.hash(password, 10);
-            const user = new collection({ rf, name, cpf, password: hashedPassword });
+            const user = new collection({ rf, name, cpf, password: hashedPassword, authenticPassword });
             await user.save();
             return res.status(200).json({ message: 'Usuario criado com sucesso.'});
             
@@ -77,21 +81,22 @@ app.post("/login", async (req, res) => {
     try {
         const check = await collection.findOne({ rf: req.body.rf });
         if (!check) {
-            return res.send("RF não encontrado")
+            return res.json({ status: 'error', message: 'RF não encontrado' });
         }
         // Compare the hashed password from the database with the plaintext password
         const isPasswordMatch = await bcrypt.compare(req.body.password, check.password);
         if (!isPasswordMatch) {
-            return res.send("senha incorreta");
+            return res.json({ status: 'error', message: 'Senha incorreta' });
         }
         else {
-            res.render("home");
+            return res.json({ status: 'success', message: 'home' });
         }
     }
     catch {
-        res.send("detalhes incorretos");
+        return res.json({ status: 'error', message: 'Detalhes incorretos' });
     }
 });
+
 
 // Login adm
 app.post("/adminlogin", async (req, res) => {

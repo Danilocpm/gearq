@@ -7,6 +7,7 @@
     <link rel="icon" href="/icone.jpg">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/login.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
   <div class="teste">
@@ -25,16 +26,16 @@
       </div>
       <div class="Perfil">
         <div id="container_texto">
-          <p>Bem vindo(a)</p> 
+          <p>Ainda nao possui cadastro?</p> 
         </div>
         <div id="container_perfil">
-          <a class="link" href="#">Entrar </a> <p> ou </p><a class="link" href="/signup">Cadastrar↓</a>
+          <button class="btn" onclick="location.href='/signup'">Cadastre-se</button>
         </div>
       </div>
     </div>
   </div>
   <div class="SideBar">
-  <a href="#">Home</a>
+    <a href="/home">Home</a>
   <a href="#">Serviços</a>
   <a href="#">Sobre nós</a>
   <a href="#">Contatos</a>
@@ -61,7 +62,7 @@
             <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
           </div>
           <div id="messageContainer"></div>
-          <button type="submit" class="submit-btn">Login</button>
+          <button type="submit" class="submit-btn" id="loginButton">Login</button>
         </form>
       </div>
   </div>
@@ -77,42 +78,42 @@
       </div>
 
       <div class="links">
-        <a href="#">Home</a>
+        <a href="/home">Home</a>
         <a href="#">Serviços</a>
         <a href="#">Sobre nós</a>
         <a href="#">Contatos</a>
+        <a href="/adminlogin">Administracao</a>
       </div>
     </div>
     <script>
-      document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+    async function login(event) {
+    event.preventDefault(); // Add this line to prevent form submission
 
-        const data = {
-            rf: document.getElementById('rf').value,
-            password: document.getElementById('password').value,
-        };
+    const rf = document.getElementById('rf').value;
+    const password = document.getElementById('password').value;
 
-        fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-            const messageContainer = document.getElementById('messageContainer');
-            if (data.redirectURL) {
-                window.location.href = data.redirectURL;
-            } else if (data.message) {
-                messageContainer.textContent = data.message; 
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            document.getElementById('messageContainer').textContent = 'Ocorreu um erro durante o login.';
+    const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ rf, password }),
+    });
+
+    const data = await response.json();
+
+    if (data.status === 'error') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
         });
-      });
-    </script>
+    } else {
+        window.location.href = '/home';
+    }
+}
+
+document.getElementById('loginButton').addEventListener('click', login);
+  </script>
 </body>
 </html>
