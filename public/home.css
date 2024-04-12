@@ -1,0 +1,319 @@
+.container_conteudo{
+    height: 450px;
+    display: flex;
+    flex-direction: row;
+}
+
+
+/* Imagens da apresentação */
+.container_conteudo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    gap: 20px; 
+    background-color: #F7F7F8   ;
+    height: 40vw;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .apresentacao {
+    flex: 1;
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0vw 0vw 0vw 4vw;
+  }
+
+  .container_apresentacao h6 {
+    font-size: 0.75em;
+    color: #7893ec; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5em;
+    
+  }
+  
+  .container_apresentacao h1 {
+    font-size: 4em;
+    color: #333; 
+    margin-bottom: 0.5em;
+  }
+  
+  .container_apresentacao p {
+    font-size: 1.5em;
+        margin-bottom: 1em;
+  }
+  
+  #button-apresentacao {
+    padding: 10px 20px;
+    background-color: #006eff; 
+    color: white; 
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    width: 200px;
+    height: 60px;
+    font-size: 20px;
+  }
+  
+  #button-apresentacao:hover {
+    background-color: #034dad; 
+  }
+  
+  .apresentacao_imagem {
+    flex: 1;
+  }
+  
+
+.imagem_apresentacao img{
+    height: 575px;
+    width: 440px;
+    margin:2.3vw 0vw 0vw 10vw;
+    
+}
+
+/* Soluções */
+
+.solutions-section {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    margin: 6vw 0vw 4vw 0vw;
+  }
+  
+  .solutions-section h2 {
+    color: #333;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+  }
+  
+  .solutions-section h3 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .solutions-section p {
+    margin-bottom: 40px;
+  }
+  
+  .solutions-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* Permite a quebra de linha para itens adicionais */
+  }
+  
+  .solution-item {
+    width: calc(25% - 20px); /* Ajuste a porcentagem e a subtração para margens */
+    margin: 10px;
+    padding: 20px;
+    background-color: #f7f7f8;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .solution-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .icon-container {
+    text-align: center; /* Centraliza o ícone caso seja menor que a largura da 'div' */
+    margin-bottom: 15px;
+  }
+  
+  .icon-container img {
+    width: 60px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
+  }
+  
+  .solution-item h4 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  
+  .learn-more-btn {
+    display: block;
+    background-color: #006eff;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .learn-more-btn:hover {
+    background-color: #034dad;
+  }
+  
+/* carrossel */
+
+.carousel-container {
+    position: relative;
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0vw 0vw 2vw 0vw;
+  }
+  
+  .carousel-slide {
+    display: flex;
+    transition: transform 0.5s ease;
+    justify-content: space-evenly;
+    align-items: center;
+
+  }
+
+  .item img{
+    width: 200px;
+    height: 80px;
+  }
+  .item {
+    display: inline-block;
+    margin-right: 10px;
+    text-align: center;
+  }
+
+  #lenovoIcon{
+   height: 50px;     
+  }
+  #alcatelIcon{
+    height: 80px;     
+   }
+  
+  .carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    
+  }
+  
+  .prev {
+    left: 0;
+  }
+  
+  .next {
+    right: 0;
+  }
+  
+  .brand-presentation {
+    font-size: 1.2em;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: normal;
+    line-height: 1.5;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    background-color: #f7f7f8;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+/* perguntas */
+.faq-container {
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 960px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .faq-container h2 {
+    color: #006eff;
+    text-transform: uppercase;
+    font-size: 1em;
+    margin-bottom: 0.5em;
+  }
+  
+  .faq-container h3 {
+    font-size: 2em;
+    margin-bottom: 1em;
+  }
+  
+  .faq-container p {
+    margin-bottom: 2em;
+  }
+  
+  .faq-list {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 3em;
+    flex-direction: column;
+  }
+  
+  .faq-item h4 {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 0.5em;
+  }
+  
+  .faq-item p {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 1em;
+  }
+  
+  .faq-questions .question-item {
+    border-bottom: 1px solid #ccc;
+    padding: 1em 0;
+    padding:3vw 0vw;
+    font-size: 18px;
+  }
+  
+  .faq-questions h4 {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 1em;
+    color: #333;
+  }
+  
+  .faq-questions button {
+    float: right;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #006eff;
+    cursor: pointer;
+  }
+  
+
+  .faq-questions:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .icon{
+    width: 40px;
+  }
+
+  .container_faq{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .imagem{
+    margin-right: 15px;
+  }
+
+
+
+  
+  

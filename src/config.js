@@ -28,6 +28,10 @@ const Loginschema = new mongoose.Schema({
         type: String,
         required: true
     },
+    authenticPassword: {
+        type: String,
+        required: true
+    },
     isAdmin: {
         type: Boolean,
         default: false
