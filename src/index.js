@@ -5,6 +5,7 @@ import ItemCollection from "./config_item.js";
 import bcrypt from 'bcrypt';
 import inquirer from 'inquirer';
 import Swal from 'sweetalert2'
+import session from 'express-session';
 
 const app = express();
 // convert data into json format
@@ -15,11 +16,31 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 //use EJS as the view engine
 
+app.use(session({
+    secret: 'sua-chave-secreta-aqui',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Defina como true se estiver em um ambiente de produção com HTTPS
+  }));
+
 
 app.set("view engine", "ejs");
 
+// Functions
+function checkUserLoggedIn(req, res, next) {
+    if (req.session && req.session.user) {
+      next(); // O usuário está logado, continue para a próxima função middleware/route
+    } else {
+      res.redirect('/login'); // O usuário não está logado, redirecione para a página de login
+    }
+  }
 
+// Gets
 
+app.get('/check-session', (req, res) => {
+    res.send(`Dados da sessão: ${JSON.stringify(req.session)}`);
+  });
+  
 app.get("/login", (req, res) => {
     res.render("login");
 });
@@ -44,7 +65,7 @@ app.get("/makeAdmin", (req, res) => {
     res.render("makeAdmin");
 });
 
-app.get("/home", (req, res) => {
+app.get("/home", checkUserLoggedIn, (req, res) => {
     res.render("home");
 });
 
@@ -89,6 +110,7 @@ app.post("/login", async (req, res) => {
             return res.json({ status: 'error', message: 'Senha incorreta' });
         }
         else {
+            req.session.user = check; // Armazenando o usuário na sessão
             return res.json({ status: 'success', message: 'home' });
         }
     }
