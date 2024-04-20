@@ -26,7 +26,20 @@ app.use(session({
 
 app.set("view engine", "ejs");
 
+// Functions
+function checkUserLoggedIn(req, res, next) {
+    if (req.session && req.session.user) {
+      next(); // O usuário está logado, continue para a próxima função middleware/route
+    } else {
+      res.redirect('/login'); // O usuário não está logado, redirecione para a página de login
+    }
+  }
 
+// Gets
+
+app.get('/check-session', (req, res) => {
+    res.send(`Dados da sessão: ${JSON.stringify(req.session)}`);
+  });
 
 app.get("/", (req, res) => {
     res.render("login");
