@@ -6,12 +6,25 @@ import bcrypt from 'bcrypt';
 import inquirer from 'inquirer';
 import Swal from 'sweetalert2'
 import session from 'express-session';
+import multer from "multer";
 
 const app = express();
 // convert data into json format
+
+const upload = multer({ dest: 'uploads/' });
+
+
+// destiny for jpegs
+
 app.use(express.json());
+
 // Static file
 app.use(express.static("public"));
+
+app.use('/img', express.static('img'))
+
+// Serve arquivos estáticos do diretório 'uploads'
+app.use('/uploads/', express.static('uploads'));
 
 app.use(express.urlencoded({ extended: false }));
 //use EJS as the view engine
@@ -36,12 +49,11 @@ function checkUserLoggedIn(req, res, next) {
   }
 
 // Gets
-
 app.get('/check-session', (req, res) => {
     res.send(`Dados da sessão: ${JSON.stringify(req.session)}`);
   });
 
-app.get("/", (req, res) => {
+app.get("/login", (req, res) => {
     res.render("login");
 });
 
@@ -68,6 +80,11 @@ app.get("/makeAdmin", (req, res) => {
 app.get("/home", checkUserLoggedIn, (req, res) => {
     res.render("home");
 });
+
+app.get("/profile", (req, res) => {
+    res.render("profile");
+});
+
 
 // Register User
 app.post("/signup", async (req, res) => {
@@ -207,6 +224,35 @@ app.post('/makeAdmin', async (req, res) => {
     }
 });
 
+app.post('/upload', upload.single('profileImage'), async (req, res) => {
+    try {
+        console.log('Iniciando upload...');
+        const user = req.session.user;
+        const dbUser = await collection.findOne({ rf: user.rf });
+        if (!dbUser) {
+            console.log('Usuário não encontrado');
+            return res.status(400).send({ error: 'Usuário não encontrado' });
+        }
+        console.log('Usuário encontrado, atualizando imagem de perfil...');
+        dbUser.profileImage = req.file.path;
+        await dbUser.save();
+        console.log('Imagem de perfil atualizada com sucesso');
+        // Atualiza a imagem de perfil na sessão do usuário
+        req.session.user.profileImage = dbUser.profileImage;
+        res.send({ success: 'Imagem de perfil atualizada com sucesso', imagePath: dbUser.profileImage });
+    } catch (err) {
+        console.error('Erro ao atualizar a imagem do perfil:', err);
+        res.status(500).send({ error: 'Erro ao atualizar a imagem do perfil' });
+    }
+});
+
+
+
+
+app.get('/getProfileImage', (req, res) => {
+    const user = req.session.user; // assumindo que o usuário está na sessão
+    res.json({ imagePath: user.profileImage });
+});
 
 
 // Define Port for Application

@@ -19,7 +19,6 @@ const Loginschema = new mongoose.Schema({
         type: String,
         required: true
     },
-    
     cpf: {
         type: String,
         required: true
@@ -35,6 +34,10 @@ const Loginschema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false
+    },
+    profileImage: { 
+        type: String,
+        default: 'img/icon.jpg'
     },
     
 });

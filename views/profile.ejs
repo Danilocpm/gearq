@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Perfil do Usuário</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Box de boas-vindas -->
+        <div class="jumbotron text-center">
+            <h1 class="display-4">Bem-vindo ao seu perfil!</h1>
+        </div>
+
+        <!-- Informações do usuário -->
+        <div class="row">
+            <!-- Foto do usuário -->
+            <div class="col-md-4">
+                <img id="userImage" class="img-fluid rounded-circle" alt="Foto do usuário">
+                <input type="file" id="imageUpload" accept="image/jpeg, image/png">
+                <button id="uploadButton">Upload</button>
+            </div>
+
+            <!-- Informações do usuário -->
+            <div class="col-md-8">
+                <h2>Seu Nome</h2>
+                <p>Algumas informações sobre você...</p>
+            </div>
+        </div>
+
+        <!-- Histórico de pedidos -->
+        <div class="mt-5">
+            <h2>Histórico de Pedidos</h2>
+            <!-- A lógica do histórico de pedidos será implementada aqui -->
+        </div>
+
+        <!-- Atalhos -->
+        <div class="mt-5">
+            <h2>Atalhos</h2>
+            <!-- Seus atalhos vão aqui -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        // Substitua 'url_para_obter_imagem' pela URL do seu endpoint para obter a imagem de perfil do usuário
+        fetch('/getProfileImage')
+        .then(response => response.json())
+        .then(data => {
+            // Atualiza a imagem de perfil do usuário
+            document.getElementById('userImage').src = data.imagePath;
+        })
+        .catch(error => {
+            console.error('Erro ao obter a imagem de perfil', error);
+        });
+    </script>
+
+<script>
+    document.getElementById('uploadButton').addEventListener('click', function() {
+        var fileInput = document.getElementById('imageUpload');
+        var file = fileInput.files[0];
+        var formData = new FormData();
+        formData.append('profileImage', file);
+
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Atualiza a imagem de perfil do usuário
+                document.getElementById('userImage').src = data.imagePath;
+            } else {
+                console.error('Erro ao fazer upload da imagem', data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao fazer upload da imagem', error);
+        });
+    });
+</script>
+
+
+</body>
+</html>
