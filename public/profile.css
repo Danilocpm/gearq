@@ -1,0 +1,57 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 960px;
+    margin: auto;
+}
+
+/* Navegação vertical */
+.nav-pills .nav-link {
+    color: #333;
+}
+
+.nav-pills .nav-link.active {
+    color: #fff;
+    background-color: #007bff;
+}
+
+/* Conteúdo principal */
+.jumbotron {
+    background-color: #f8f9fa;
+    padding: 2rem 1rem;
+}
+
+.jumbotron h1 {
+    font-size: 2.5rem;
+}
+
+/* Informações do usuário */
+#userImage {
+    width: 100%;
+    height: auto;
+}
+
+#uploadButton {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    padding: .375rem .75rem;
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+#uploadButton:hover {
+    background-color: #0056b3;
+}
+
+/* Histórico de pedidos e atalhos */
+.mt-5 h2 {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: .5rem;
+}
+

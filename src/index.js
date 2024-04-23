@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import collection from "./config.js";
 import ItemCollection from "./config_item.js";
+import paginas from "./config_pagina.js";
 import bcrypt from 'bcrypt';
 import inquirer from 'inquirer';
 import Swal from 'sweetalert2'
@@ -81,9 +82,17 @@ app.get("/home", checkUserLoggedIn, (req, res) => {
     res.render("home");
 });
 
-app.get("/profile", (req, res) => {
-    res.render("profile");
+app.get('/profile', checkUserLoggedIn, async function(req, res) {
+    const pages = await paginas.find({ owner: req.session.user.name });
+    res.render('profile', { 
+        name: req.session.user.name,
+        cpf: req.session.user.cpf,
+        profileImage: req.session.user.profileImage,
+        isAdmin: req.session.user.isAdmin,
+        pages: pages,
+    });
 });
+
 
 
 // Register User

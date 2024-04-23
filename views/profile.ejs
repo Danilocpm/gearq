@@ -3,40 +3,73 @@
 <head>
     <title>Perfil do Usuário</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/profile.css">
 </head>
 <body>
     <div class="container mt-5">
-        <!-- Box de boas-vindas -->
-        <div class="jumbotron text-center">
-            <h1 class="display-4">Bem-vindo ao seu perfil!</h1>
-        </div>
-
-        <!-- Informações do usuário -->
         <div class="row">
-            <!-- Foto do usuário -->
-            <div class="col-md-4">
-                <img id="userImage" class="img-fluid rounded-circle" alt="Foto do usuário">
-                <input type="file" id="imageUpload" accept="image/jpeg, image/png">
-                <button id="uploadButton">Upload</button>
+            <!-- Navegação vertical -->
+            <div class="col-md-2">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
+                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Perfil</a>
+                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Mensagens</a>
+                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Configurações</a>
+                </div>
             </div>
 
-            <!-- Informações do usuário -->
-            <div class="col-md-8">
-                <h2>Seu Nome</h2>
-                <p>Algumas informações sobre você...</p>
+            <!-- Conteúdo principal -->
+            <div class="col-md-10">
+                <!-- Box de boas-vindas -->
+                <div class="jumbotron text-center">
+                    <h1 class="display-4">Bem-vindo ao seu perfil!</h1>
+                </div>
+
+                <!-- Informações do usuário -->
+                <div class="row">
+                    <!-- Foto do usuário -->
+                    <div class="col-md-4">
+                        <input type="file" id="imageUpload" accept="image/jpeg, image/png" style="display: none">
+                        <img id="userImage" class="img-fluid rounded-circle" alt="Foto do usuário" onclick="document.getElementById('imageUpload').click()">
+                    </div>
+
+                    <!-- Informações do usuário -->
+                    <div class="col-md-8">
+                        <h2><%= name %></h2>
+                        <p><% if (isAdmin) { %> <span class="badge badge-pill badge-primary">Admin</span> <% } else { %> Voce nao possui cargos... <% } %></p>
+                    </div>
+                </div>
+
+                <!-- Histórico de pedidos -->
+                <div class="mt-5">
+                    <h2>Histórico de Pedidos</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nome da Página</th>
+                                <th scope="col">Data de Criação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% pages.forEach(function(page, index) { %>
+                                <tr>
+                                    <th scope="row"><%= index + 1 %></th>
+                                    <td><%= page.item_name %></td>
+                                    <td><%= page.createdAt.toDateString() %></td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                    
+                </div>
+
+                <!-- Atalhos -->
+                <div class="mt-5">
+                    <h2>Atalhos</h2>
+                    <!-- Seus atalhos vão aqui -->
+                </div>
             </div>
-        </div>
-
-        <!-- Histórico de pedidos -->
-        <div class="mt-5">
-            <h2>Histórico de Pedidos</h2>
-            <!-- A lógica do histórico de pedidos será implementada aqui -->
-        </div>
-
-        <!-- Atalhos -->
-        <div class="mt-5">
-            <h2>Atalhos</h2>
-            <!-- Seus atalhos vão aqui -->
         </div>
     </div>
 
@@ -57,29 +90,28 @@
     </script>
 
 <script>
-    document.getElementById('uploadButton').addEventListener('click', function() {
-        var fileInput = document.getElementById('imageUpload');
-        var file = fileInput.files[0];
-        var formData = new FormData();
-        formData.append('profileImage', file);
+    document.getElementById('imageUpload').addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    var formData = new FormData();
+    formData.append('profileImage', file);
 
-        fetch('/upload', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Atualiza a imagem de perfil do usuário
-                document.getElementById('userImage').src = data.imagePath;
-            } else {
-                console.error('Erro ao fazer upload da imagem', data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao fazer upload da imagem', error);
-        });
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Atualiza a imagem de perfil do usuário
+            document.getElementById('userImage').src = data.imagePath;
+        } else {
+            console.error('Erro ao fazer upload da imagem', data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao fazer upload da imagem', error);
     });
+});
 </script>
 
 
