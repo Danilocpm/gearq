@@ -83,13 +83,13 @@ app.get("/home", checkUserLoggedIn, (req, res) => {
 });
 
 app.get('/profile', checkUserLoggedIn, async function(req, res) {
-    const pages = await paginas.find({ owner: req.session.user.name });
+    const pages = await paginas.find({ owner: req.session.user.name }).sort({createdAt: -1}).limit(3);
     res.render('profile', { 
         name: req.session.user.name,
         cpf: req.session.user.cpf,
         profileImage: req.session.user.profileImage,
         isAdmin: req.session.user.isAdmin,
-        pages: pages,
+        pages: pages
     });
 });
 
