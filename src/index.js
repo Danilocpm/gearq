@@ -93,6 +93,16 @@ app.get('/profile', checkUserLoggedIn, async function(req, res) {
     });
 });
 
+app.get('/history', checkUserLoggedIn, async function(req, res) {
+    const pages = await paginas.find({ owner: req.session.user.name });
+    res.render('history', { 
+        name: req.session.user.name,
+        cpf: req.session.user.cpf,
+        profileImage: req.session.user.profileImage,
+        isAdmin: req.session.user.isAdmin,
+        pages: pages
+    });
+});
 
 
 // Register User
@@ -145,6 +155,17 @@ app.post("/login", async (req, res) => {
     }
 });
 
+// Logout User
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if(err) {
+            return res.redirect('/login');
+        }
+        res.clearCookie('sid');
+        res.redirect('/login');
+    })
+});
 
 // Login adm
 app.post("/adminlogin", async (req, res) => {
@@ -233,6 +254,9 @@ app.post('/makeAdmin', async (req, res) => {
     }
 });
 
+
+// upload da imagem de perfil nova
+
 app.post('/upload', upload.single('profileImage'), async (req, res) => {
     try {
         console.log('Iniciando upload...');
@@ -257,6 +281,7 @@ app.post('/upload', upload.single('profileImage'), async (req, res) => {
 
 
 
+// Pega a imagem de perfil do user
 
 app.get('/getProfileImage', (req, res) => {
     const user = req.session.user; // assumindo que o usuário está na sessão

@@ -1,9 +1,27 @@
 /* Estilos gerais */
+
 body {
+    background-image: url('img/wpprofile.jpg');
+    background-repeat: no-repeat; /* A imagem não se repetirá */
+    background-position: center; /* A imagem será centralizada */
+    background-size: cover; /* A imagem cobrirá todo o corpo */
     font-family: Arial, sans-serif;
 }
 
 .container {
+    /* Adiciona um fundo branco ao container principal para destacá-lo */
+    background-color: #ffffff;
+
+    /* Adiciona uma borda ao redor do container principal */
+    border: 1px solid #ddd;
+
+    /* Adiciona algum espaço ao redor do container principal */
+    margin: 20px auto;
+
+    /* Adiciona algum preenchimento dentro do container principal */
+    padding: 20px;
+
+    border-radius: 10px;
     max-width: 960px;
     margin: auto;
 }
@@ -55,3 +73,32 @@ body {
     padding-bottom: .5rem;
 }
 
+.table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.table th,
+.table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #009879;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.table td {
+    transition: all .3s;
+}
+
+.table td:hover {
+    background-color: #f2f2f2;
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>Historico</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/history.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Navegação vertical -->
+            <div class="col-md-2">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile"
+                        role="tab" aria-controls="v-pills-profile" aria-selected="true">Perfil</a>
+                    <a class="nav-link" id="v-pills-history-tab" data-toggle="pill" href="#v-pills-history" role="tab"
+                        aria-controls="v-pills-history" aria-selected="false">Histórico</a>
+                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
+                        aria-controls="v-pills-messages" aria-selected="false">Mensagens</a>
+                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
+                        aria-controls="v-pills-settings" aria-selected="false">Configurações</a>
+                </div>
+            </div>
+
+            <!-- Conteúdo principal -->
+            <div class="col-md-10">
+                <!-- Histórico de pedidos -->
+                <div class="mt-5">
+                    <input type="text" id="search" class="form-control" placeholder="Digite para buscar...">
+                    <select id="column-selector" class="form-control">
+                        <option value="0">#</option>
+                        <option value="1">Nome da Página</option>
+                        <option value="2">Data de Criação</option>
+                    </select>
+                    <div class="table-container">
+                        <table class="table table-scroll">
+                            <thead class="sticky-header">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nome da Página</th>
+                                    <th scope="col">Data de Criação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for(var i=0; i < Math.max(10, pages.length); i++) { %>
+                                    <tr>
+                                        <th scope="row">
+                                            <%= i + 1 %>
+                                        </th>
+                                        <td>
+                                            <%= pages[i] ? pages[i].item_name : '' %>
+                                        </td>
+                                        <td>
+                                            <%= pages[i] ? pages[i].createdAt.toDateString() : '' %>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                var searchFunction = function () {
+                    var value = $("#search").val().toLowerCase();
+                    var column = $("#column-selector").val();
+                    $(".table-scroll tbody tr").each(function () {
+                        $(this).toggle($(this).children().eq(column).text().toLowerCase().indexOf(value) > -1)
+                    });
+                };
+
+                $("#search").on("keyup", searchFunction);
+                $("#column-selector").on("change", searchFunction);
+            });
+
+        </script>
+
+
+
+
+</body>
+
+</html>
