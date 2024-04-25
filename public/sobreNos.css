@@ -1,0 +1,49 @@
+.content-area {
+    margin: 2vw 5vw;
+    padding: 1vw;
+}
+
+.intro, .services, .cta {
+    margin-bottom: 2vw;
+}
+
+.intro h1, .services h2, .cta h2 {
+    color: var(--cor-primaria);
+    margin-bottom: 1vw;
+}
+
+.service {
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    padding: 1vw;
+    margin-bottom: 1vw;
+}
+
+.service h3 {
+    color: var(--cor-primaria);
+}
+
+.service p {
+    font-size: 16px;
+}
+
+.cta h2 {
+    font-size: 24px;
+    text-align: center;
+}
+
+.cta button {
+    display: block;
+    width: 200px;
+    padding: 10px;
+    margin: 1vw auto;
+    background-color: var(--cor-primaria);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.cta button:hover {
+    background-color: #002244;
+}
