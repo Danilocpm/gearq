@@ -4,7 +4,9 @@ body {
     background-position: center; /* A imagem será centralizada */
     background-size: cover; /* A imagem cobrirá todo o corpo */
     font-family: Arial, sans-serif;
+    min-height: 100vh; /* Nova linha adicionada */
 }
+
 
 .container {
     /* Adiciona um fundo branco ao container principal para destacá-lo */
@@ -30,7 +32,7 @@ body {
 }
 
 .table-scroll {
-    max-height:500px;
+    max-height:400px;
     overflow-y:auto;
     overflow-x:auto;
     display:block;
@@ -86,7 +88,7 @@ body {
 #column-selector {
     width: 100%;
     font-size: 16px;
-    padding: 12px 20px;
+    padding: 8px 20px;
     margin: 8px 0;
     box-sizing: border-box;
     border: 2px solid #ccc;

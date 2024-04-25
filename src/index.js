@@ -104,6 +104,17 @@ app.get('/history', checkUserLoggedIn, async function(req, res) {
     });
 });
 
+app.get('/infos', checkUserLoggedIn, async function(req, res) {
+    const pages = await paginas.find({ owner: req.session.user.name });
+    res.render('infos', { 
+        name: req.session.user.name,
+        cpf: req.session.user.cpf,
+        profileImage: req.session.user.profileImage,
+        isAdmin: req.session.user.isAdmin,
+        pages: pages
+    });
+});
+
 
 // Register User
 app.post("/signup", async (req, res) => {
