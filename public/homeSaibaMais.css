@@ -1,0 +1,33 @@
+#titulo{
+    margin: 20px 0px 0px 100px;
+    color: #1569AE;
+}
+
+#voltar{
+    text-decoration: none;
+    color: #1569AE;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+
+.cardInfo{
+    display: flex;
+    flex-direction: row;
+    margin: 40px 80px;
+}
+
+.cabecalho{
+    color: #1569AE;
+}
+
+#letra img{
+    margin-right: 100px;
+}
+.imagem{
+    width:200px;
+}
+
+.imagem img{
+    width: 100px;
+}

@@ -48,6 +48,17 @@
   
   .submit-btn{
     margin: 1vw 0vw 0vw 0vw;
-    position: fixed;
+    position: absolute;
     left: 42vw;
+  }
+
+  #RecoverPassword{
+    position: relative;
+    bottom: -50px;
+    text-decoration: none;
+    color: black;
+
+    &:hover{
+      text-decoration: underline;
+    }
   }

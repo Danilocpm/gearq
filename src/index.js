@@ -82,6 +82,20 @@ app.get("/home", checkUserLoggedIn, (req, res) => {
     res.render("home");
 });
 
+app.get("/homeSaibaMais.ejs", (req, res)=>{
+    res.render("homeSaibaMais");
+});
+app.get("/sobreNos", (req, res) =>{
+    res.render("sobreNos");
+});
+
+app.get("/contato", (req, res) => {
+    res.render("contato");
+});
+
+app.get("/servico", (req, res) => {
+    res.render("servico");
+});
 app.get('/profile', checkUserLoggedIn, async function(req, res) {
     const pages = await paginas.find({ owner: req.session.user.name }).sort({createdAt: -1}).limit(3);
     res.render('profile', { 
