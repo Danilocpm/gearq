@@ -54,6 +54,10 @@ app.get('/check-session', (req, res) => {
     res.send(`Dados da sessão: ${JSON.stringify(req.session)}`);
   });
 
+app.get("/", (req, res) => {
+    res.render("login");
+});
+
 app.get("/login", (req, res) => {
     res.render("login");
 });
@@ -96,6 +100,7 @@ app.get("/contato", (req, res) => {
 app.get("/servico", (req, res) => {
     res.render("servico");
 });
+
 app.get('/profile', checkUserLoggedIn, async function(req, res) {
     const pages = await paginas.find({ owner: req.session.user.name }).sort({createdAt: -1}).limit(3);
     res.render('profile', { 
