@@ -13,8 +13,8 @@
             <!-- Navegação vertical -->
             <div class="col-md-2">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="/profile"
-                        role="tab" aria-controls="v-pills-profile" aria-selected="true">Perfil</a>
+                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="/profile" role="tab"
+                        aria-controls="v-pills-profile" aria-selected="true">Perfil</a>
                     <a class="nav-link active" id="v-pills-history-tab" data-toggle="pill" href="/history" role="tab"
                         aria-controls="v-pills-history" aria-selected="false">Histórico</a>
                     <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
@@ -24,6 +24,9 @@
 
             <!-- Conteúdo principal -->
             <div class="col-md-10">
+                <div class="jumbotron text-center">
+                    <h1 class="display-5">Historico de Paginas Criadas!</h1>
+                </div>
                 <!-- Histórico de pedidos -->
                 <div class="mt-5">
                     <input type="text" id="search" class="form-control" placeholder="Digite para buscar...">
@@ -77,6 +80,17 @@
                 $("#column-selector").on("change", searchFunction);
             });
 
+        </script>
+
+        <script>
+            document.getElementById('v-pills-settings-tab').addEventListener('click', function () {
+                window.location.href = '/infos';
+            });
+        </script>
+        <script>
+            document.getElementById('v-pills-profile-tab').addEventListener('click', function () {
+                window.location.href = '/profile';
+            });
         </script>
 
 

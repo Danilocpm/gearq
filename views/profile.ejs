@@ -110,6 +110,11 @@
         });
     </script>
     <script>
+        document.getElementById('v-pills-settings-tab').addEventListener('click', function () {
+            window.location.href = '/infos';
+        });
+    </script>
+    <script>
         // Substitua 'url_para_obter_imagem' pela URL do seu endpoint para obter a imagem de perfil do usuário
         fetch('/getProfileImage')
             .then(response => response.json())

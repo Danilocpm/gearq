@@ -1,0 +1,32 @@
+body {
+    background-image: url('img/wpprofile.jpg');
+    background-repeat: no-repeat; /* A imagem não se repetirá */
+    background-position: center; /* A imagem será centralizada */
+    background-size: cover; /* A imagem cobrirá todo o corpo */
+    font-family: Arial, sans-serif;
+    min-height: 100vh; /* Nova linha adicionada */
+}
+
+
+.container {
+    /* Adiciona um fundo branco ao container principal para destacá-lo */
+    background-color: #ffffff;
+
+    /* Adiciona uma borda ao redor do container principal */
+    border: 1px solid #ddd;
+
+    /* Adiciona algum espaço ao redor do container principal */
+    margin: 20px auto;
+
+    /* Adiciona algum preenchimento dentro do container principal */
+    padding: 20px;
+
+    border-radius: 10px;
+    max-width: 960px;
+    margin: auto;
+}
+
+.jumbotron {
+    padding: 1rem 1rem; 
+    margin-bottom: 1rem;
+}

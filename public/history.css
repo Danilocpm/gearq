@@ -94,3 +94,8 @@ body {
     border: 2px solid #ccc;
     border-radius: 4px;
 }
+
+.jumbotron {
+    padding: 1rem 1rem; 
+    margin-bottom: 1rem;
+}

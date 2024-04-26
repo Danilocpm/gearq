@@ -123,6 +123,7 @@ app.get('/infos', checkUserLoggedIn, async function(req, res) {
     res.render('infos', { 
         name: req.session.user.name,
         cpf: req.session.user.cpf,
+        rf: req.session.user.rf,
         profileImage: req.session.user.profileImage,
         isAdmin: req.session.user.isAdmin,
         pages: pages
@@ -191,6 +192,42 @@ app.get('/logout', (req, res) => {
         res.redirect('/login');
     })
 });
+
+
+// Rewrite password
+app.post('/change-password', async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+    const rf = req.session.user.rf; // Pegar o 'rf' do usuário atualmente logado na sessão
+
+    try {
+        // Encontrar o usuário pelo 'rf'
+        const user = await collection.findOne({ rf });
+
+        if (!user) {
+            return res.status(400).json({ error: 'Usuário não encontrado' });
+        }
+
+        // Verificar se a senha antiga está correta
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+        if (!isMatch) {
+            return res.status(400).json({ error: 'Senha antiga incorreta' });
+        }
+
+        // Criptografar a nova senha
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Atualizar a senha do usuário
+        user.password = hashedPassword;
+        await user.save();
+
+        res.json({ message: 'Senha alterada com sucesso' });
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao alterar a senha' });
+    }
+});
+
+
 
 // Login adm
 app.post("/adminlogin", async (req, res) => {
