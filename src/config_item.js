@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const connect = mongoose.connect("mongodb://localhost:27017/item");
+const connect = mongoose.connect("mongodb+srv://danilocarneirop:vermelho250@cluster0.6l8y26t.mongodb.net");
 
 // Check database connected or not
 connect.then(() => {
