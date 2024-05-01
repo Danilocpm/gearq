@@ -1,5 +1,10 @@
 import mongoose from 'mongoose';
-const connect = mongoose.connect("mongodb+srv://danilocarneirop:vermelho250@cluster0.6l8y26t.mongodb.net");
+const connect = mongoose.connect("mongodb://localhost:27017/item");
+const connectOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000  // Tempo de espera para seleção do servidor
+};
 
 // Check database connected or not
 connect.then(() => {
