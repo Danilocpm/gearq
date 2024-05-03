@@ -14,7 +14,6 @@ const app = express();
 
 const upload = multer({ dest: 'uploads/' });
 
-
 // destiny for jpegs
 
 app.use(express.json());
@@ -35,7 +34,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Defina como true se estiver em um ambiente de produção com HTTPS
-  }));
+}));
 
 
 app.set("view engine", "ejs");
@@ -43,16 +42,16 @@ app.set("view engine", "ejs");
 // Functions
 function checkUserLoggedIn(req, res, next) {
     if (req.session && req.session.user) {
-      next(); // O usuário está logado, continue para a próxima função middleware/route
+        next(); // O usuário está logado, continue para a próxima função middleware/route
     } else {
-      res.redirect('/login'); // O usuário não está logado, redirecione para a página de login
+        res.redirect('/login'); // O usuário não está logado, redirecione para a página de login
     }
-  }
+}
 
 // Gets
 app.get('/check-session', (req, res) => {
     res.send(`Dados da sessão: ${JSON.stringify(req.session)}`);
-  });
+});
 
 app.get("/", (req, res) => {
     res.render("login");
@@ -86,10 +85,10 @@ app.get("/home", checkUserLoggedIn, (req, res) => {
     res.render("home");
 });
 
-app.get("/homeSaibaMais.ejs", (req, res)=>{
+app.get("/homeSaibaMais.ejs", (req, res) => {
     res.render("homeSaibaMais");
 });
-app.get("/sobreNos", (req, res) =>{
+app.get("/sobreNos", (req, res) => {
     res.render("sobreNos");
 });
 
@@ -101,9 +100,21 @@ app.get("/servico", (req, res) => {
     res.render("servico");
 });
 
-app.get('/profile', checkUserLoggedIn, async function(req, res) {
-    const pages = await paginas.find({ owner: req.session.user.name }).sort({createdAt: -1}).limit(3);
-    res.render('profile', { 
+app.get('/item/:nome', async (req, res) => {
+    const itemName = req.params.nome; // Get the item ID from the URL
+    const item = await ItemCollection.findOne({ nome: itemName}); // Fetch the item from the database
+
+
+    if (item) {
+        res.render('itemDetails', { item: item }); // Render the item details page
+    } else {
+        res.status(404).send('Item not found'); // Send a 404 response if the item is not found
+    }
+});
+
+app.get('/profile', checkUserLoggedIn, async function (req, res) {
+    const pages = await paginas.find({ owner: req.session.user.name }).sort({ createdAt: -1 }).limit(3);
+    res.render('profile', {
         name: req.session.user.name,
         cpf: req.session.user.cpf,
         profileImage: req.session.user.profileImage,
@@ -112,9 +123,9 @@ app.get('/profile', checkUserLoggedIn, async function(req, res) {
     });
 });
 
-app.get('/history', checkUserLoggedIn, async function(req, res) {
+app.get('/history', checkUserLoggedIn, async function (req, res) {
     const pages = await paginas.find({ owner: req.session.user.name });
-    res.render('history', { 
+    res.render('history', {
         name: req.session.user.name,
         cpf: req.session.user.cpf,
         profileImage: req.session.user.profileImage,
@@ -123,9 +134,9 @@ app.get('/history', checkUserLoggedIn, async function(req, res) {
     });
 });
 
-app.get('/infos', checkUserLoggedIn, async function(req, res) {
+app.get('/infos', checkUserLoggedIn, async function (req, res) {
     const pages = await paginas.find({ owner: req.session.user.name });
-    res.render('infos', { 
+    res.render('infos', {
         name: req.session.user.name,
         cpf: req.session.user.cpf,
         rf: req.session.user.rf,
@@ -140,7 +151,7 @@ app.get('/infos', checkUserLoggedIn, async function(req, res) {
 app.post("/signup", async (req, res) => {
     const { rf, name, cpf, password, authenticPassword } = req.body;
 
-    if(password !== authenticPassword) {
+    if (password !== authenticPassword) {
         return res.status(400).json({ message: "As senhas não correspondem" });
     }
 
@@ -153,8 +164,8 @@ app.post("/signup", async (req, res) => {
             const hashedPassword = await bcrypt.hash(password, 10);
             const user = new collection({ rf, name, cpf, password: hashedPassword, authenticPassword });
             await user.save();
-            return res.status(200).json({ message: 'Usuario criado com sucesso.'});
-            
+            return res.status(200).json({ message: 'Usuario criado com sucesso.' });
+
         }
     } catch (error) {
         console.error('Erro ao cadastrar:', error);
@@ -190,7 +201,7 @@ app.post("/login", async (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
-        if(err) {
+        if (err) {
             return res.redirect('/login');
         }
         res.clearCookie('sid');
@@ -236,15 +247,15 @@ app.post('/change-password', async (req, res) => {
 
 // Login adm
 app.post("/adminlogin", async (req, res) => {
-    const user = await collection.findOne({rf: req.body.rf});
+    const user = await collection.findOne({ rf: req.body.rf });
     if (user && await bcrypt.compare(req.body.password, user.password)) {
         if (user.isAdmin) {
-            res.status(200).json({redirect: '/menu'});
+            res.status(200).json({ redirect: '/menu' });
         } else {
-            res.status(409).json({message: 'Este usuario nao possui permissao'});
+            res.status(409).json({ message: 'Este usuario nao possui permissao' });
         }
     } else {
-        res.status(401).json({message: 'Credenciais invalidas'});
+        res.status(401).json({ message: 'Credenciais invalidas' });
     }
 });
 
@@ -294,7 +305,7 @@ app.post('/createitem', async (req, res) => {
 
     try {
         await newItem.save();
-        return res.status(200).json({message: 'Item criado com sucesso'});
+        return res.status(200).json({ message: 'Item criado com sucesso' });
     } catch (err) {
         // Envie uma resposta de erro se algo der errado
         return res.status(500).json({ message: err.message });
