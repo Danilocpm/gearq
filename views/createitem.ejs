@@ -100,6 +100,13 @@
           <input type="text" class="form-control" id="watts" placeholder="Digite a Voltagem" name="watts">
         </div>
 
+        <div class="form-group">
+          <label for="image">Imagem do Item:</label>
+          <input type="file" class="form-control" id="image" placeholder="Insira a Imagem" name="image" accept="image/*">
+        </div>
+
+        
+
         <!-- Adicione mais campos conforme necessário -->
         <button type="submit" class="btn btn-default">Enviar</button>
         <button type="button" class="btn btn-secondary" onclick="window.history.back('/menu');">Voltar</button>
@@ -111,63 +118,59 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
-<script src="scr/index.js"></script>
+<script src="/src/index.js"></script>
 
 
-<script>document.querySelector('form').addEventListener('submit', function(event) {
-  // Isso impede que o formulário seja enviado normalmente
-  event.preventDefault();
-
-  let itemData = {
-    nome: document.getElementById('nome').value,
-    descricao: document.getElementById('descricao').value,
-    portas: document.getElementById('portas').value,
-    tipos_de_portas: document.getElementById('tipos_de_portas').value,
-    portas_adicionais: document.getElementById('portas_adicionais').value,
-    tipos_de_portas_adicionais: document.getElementById('tipos_de_portas_adicionais').value,
-    protocolos: document.getElementById('protocolos').value,
-    altura: document.getElementById('altura').value,
-    largura: document.getElementById('largura').value,
-    memoria: document.getElementById('memoria').value,
-    processador: document.getElementById('processador').value,
-    MAC: document.getElementById('MAC').value,
-    performance: document.getElementById('performance').value,
-    Capacidade_de_encaminhamento: document.getElementById('Capacidade_de_encaminhamento').value,
-    capacidade_de_computacao: document.getElementById('capacidade_de_computacao').value,
-    Frequência: document.getElementById('Frequência').value,
-    watts: document.getElementById('watts').value
-  };
-
-  fetch('/createitem', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(itemData),
-  })
-  .then(response => {
-      if (!response.ok) {
-          throw new Error('Erro na rede!');
+<script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+      event.preventDefault();
+  
+      let formData = new FormData();
+      let formElements = this.elements;
+  
+      // Iterate over the form elements and append them to the FormData object
+      for (let i = 0; i < formElements.length; i++) {
+          let element = formElements[i];
+          if (element.name) { // Check if the element has a name attribute
+              if (element.type === 'file') {
+                  // Handle file inputs
+                  if (element.files.length > 0) {
+                      formData.append(element.name, element.files[0]);
+                  }
+              } else {
+                  // Handle other input types
+                  formData.append(element.name, element.value);
+              }
+          }
       }
-      return response.json();
-  })
-  .then(data => {
-      Swal.fire({
-          icon: 'success',
-          title: 'Sucesso',
-          text: data.message
+  
+      fetch('/createitem', {
+          method: 'POST',
+          body: formData,
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Erro na rede!');
+          }
+          return response.json();
+      })
+      .then(data => {
+          Swal.fire({
+              icon: 'success',
+              title: 'Sucesso',
+              text: data.message
+          });
+      })
+      .catch((error) => {
+          Swal.fire({
+              icon: 'error',
+              title: 'Erro na criação',
+              text: error.message
+          });
+          console.error('Error:', error);
       });
-  })
-  .catch((error) => {
-      Swal.fire({
-          icon: 'error',
-          title: 'Erro na criação',
-          text: error.message
-      });
-      console.error('Error:', error);
   });
-});
-</script>
+  </script>
 
 </body>
 </html>

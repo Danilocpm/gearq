@@ -1,11 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Item Details</title>
+    <title>Detalhes do Item</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/itemDetails.css"> <!-- Assuming you have a custom CSS for item details -->
 </head>
 <body>
-    <h1><%= item.nome %></h1>
-    <p><strong>Description:</strong> <%= item.descricao %></p>
-    <!-- Add more fields as needed -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="jumbotron text-center">
+                    <h1 class="display-4"><%= item.nome %></h1>
+                </div>
+                <div class="mt-5">
+                    <h2>Descrição</h2>
+                    <div class="description-box">
+                        <p><%= item.descricao %></p>
+                    </div>
+                    <div class="mt-5">
+                        <h2>Especificações</h2>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Portas</th>
+                                    <td><%= item.portas %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Tipos de Portas</th>
+                                    <td><%= item.tipos_de_portas %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Portas Adicionais</th>
+                                    <td><%= item.portas_adicionais %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Tipos de Portas Adicionais</th>
+                                    <td><%= item.tipos_de_portas_adicionais %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Protocolos</th>
+                                    <td><%= item.protocolos %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Altura</th>
+                                    <td><%= item.altura %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Largura</th>
+                                    <td><%= item.largura %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Memória</th>
+                                    <td><%= item.memoria %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Processador</th>
+                                    <td><%= item.processador %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">MAC</th>
+                                    <td><%= item.MAC %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Performance</th>
+                                    <td><%= item.performance %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Capacidade de Encaminhamento</th>
+                                    <td><%= item.Capacidade_de_encaminhamento %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Capacidade de Computação</th>
+                                    <td><%= item.capacidade_de_computacao %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Frequência</th>
+                                    <td><%= item.Frequência %></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Watts</th>
+                                    <td><%= item.watts %></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <!-- Image container -->
+                <div class="outer-container">
+                    <div class="inner-box">
+                    <img src="/getitemimage/<%= item.nome %>" alt="Item Image">
+                    <div id="loadingIndicator">Loading image...</div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const image = document.getElementById('itemImage');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+    
+            image.onload = function() {
+                // Hide the loading indicator and show the image
+                loadingIndicator.style.display = 'none';
+                image.style.display = 'block';
+            };
+    
+            image.onerror = function() {
+                // Handle the error, e.g., by showing an error message
+                loadingIndicator.textContent = 'Failed to load image.';
+            };
+    
+            // Trigger the loading of the image
+            image.src = image.src;
+        });
+    </script>
 </body>
 </html>

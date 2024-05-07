@@ -8,11 +8,27 @@ import inquirer from 'inquirer';
 import Swal from 'sweetalert2'
 import session from 'express-session';
 import multer from "multer";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import sharp from 'sharp';
+import fs from 'fs';
+
 
 const app = express();
 // convert data into json format
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
 
-const upload = multer({ dest: 'uploads/' });
+// Initialize multer with the defined storage
+const upload = multer({ storage: storage });
 
 // destiny for jpegs
 
@@ -274,44 +290,62 @@ app.post("/menu", async (req, res) => {
 });
 
 // Create Item
-app.post('/createitem', async (req, res) => {
-    const { nome, descricao, portas, tipos_de_portas, portas_adicionais, tipos_de_portas_adicionais, protocolos, altura, largura, memoria, processador, MAC, performance, Capacidade_de_encaminhamento, capacidade_de_computacao, Frequência, watts } = req.body;
+// index.js
 
-    // Verifique se todos os campos necessários estão presentes
-    if (!nome || !descricao) {
-        return res.status(400).json({ message: 'Por favor, preencha todos os campos necessários.' });
-    }
-
-    // Crie um novo item com os dados do corpo da solicitação
-    const newItem = new ItemCollection({
-        nome,
-        descricao,
-        portas,
-        tipos_de_portas,
-        portas_adicionais,
-        tipos_de_portas_adicionais,
-        protocolos,
-        altura,
-        largura,
-        memoria,
-        processador,
-        MAC,
-        performance,
-        Capacidade_de_encaminhamento,
-        capacidade_de_computacao,
-        Frequência,
-        watts
-    });
-
+app.post('/createitem', upload.single('image'), async (req, res) => {
     try {
+        // Extract form fields
+        const { nome, descricao, portas, tipos_de_portas, portas_adicionais, tipos_de_portas_adicionais, protocolos, altura, largura, memoria, processador, MAC, performance, Capacidade_de_encaminhamento, capacidade_de_computacao, Frequência, watts } = req.body;
+
+        // Check if the image was uploaded
+        if (!req.file) {
+            return res.status(400).json({ message: 'No image uploaded' });
+        }
+
+        // Compress the image using sharp
+        const compressedImageBuffer = await sharp(req.file.path)
+            .resize(800, 800, { fit: 'inside' }) // Resize the image to fit within 800x800 pixels, maintaining aspect ratio
+            .jpeg({ quality: 80 }) // Compress the image to JPEG format with 80% quality
+            .toBuffer(); // Convert the processed image back to a Buffer
+
+        // Save the compressed image to the same path to overwrite the original
+        await fs.promises.writeFile(req.file.path, compressedImageBuffer);
+
+        // Create a new item with the uploaded image path
+        const newItem = new ItemCollection({
+            nome,
+            descricao,
+            portas,
+            tipos_de_portas,
+            portas_adicionais,
+            tipos_de_portas_adicionais,
+            protocolos,
+            altura,
+            largura,
+            memoria,
+            processador,
+            MAC,
+            performance,
+            Capacidade_de_encaminhamento,
+            capacidade_de_computacao,
+            Frequência,
+            watts,
+            imagePath: req.file.path // Add the image path to the item
+        });
+
+        // Save the new item
         await newItem.save();
+
+        // Send success response
         return res.status(200).json({ message: 'Item criado com sucesso' });
     } catch (err) {
-        // Envie uma resposta de erro se algo der errado
-        return res.status(500).json({ message: err.message });
+        // Log the error for debugging
+        console.error('Error creating item:', err);
+
+        // Send error response
+        return res.status(500).json({ message: 'Erro ao criar o item' });
     }
 });
-
 // Promote
 
 app.post('/makeAdmin', async (req, res) => {
@@ -364,6 +398,38 @@ app.post('/upload', upload.single('profileImage'), async (req, res) => {
 app.get('/getProfileImage', (req, res) => {
     const user = req.session.user; // assumindo que o usuário está na sessão
     res.json({ imagePath: user.profileImage });
+});
+
+app.get('/getitemimage/:itemName', async (req, res) => {
+    try {
+        // Extract the item name from the URL
+        const itemName = req.params.itemName;
+
+        // Query the database for the item
+        const item = await ItemCollection.findOne({ nome: itemName });
+
+        // Check if the item was found
+        if (!item) {
+            return res.status(404).send('Item not found');
+        }
+
+        // Check if the item has an image path
+        if (!item.imagePath) {
+            return res.status(404).send('No image associated with this item');
+        }
+
+        // Construct the absolute path to the image file
+        const imagePath = path.join(__dirname, '..', item.imagePath);
+
+        // Log the constructed path for debugging
+        console.log('Attempting to serve image from path:', imagePath);
+
+        // Serve the image
+        res.sendFile(imagePath);
+    } catch (err) {
+        console.error('Error serving item image:', err);
+        res.status(500).send('Error serving item image');
+    }
 });
 
 

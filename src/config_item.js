@@ -83,6 +83,10 @@ const ItemSchema = new mongoose.Schema({
     watts: {
         type: Number,
         required: false
+    },
+    imagePath: {
+        type: String,
+        required: false // Set to true if you want to make it mandatory
     }
 });
 
