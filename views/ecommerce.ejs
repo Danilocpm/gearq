@@ -4,6 +4,7 @@
 <head>
     <title>E-commerce Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="ecommerce.css">
 </head>
 
 <body>
@@ -42,7 +43,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Função para filtrar itens
             function filterItems(query) {
                 const items = document.querySelectorAll('.card'); // Seleciona todos os itens
@@ -55,16 +56,32 @@
                     }
                 });
             }
-        
+
             // Atualiza a lista de itens quando o termo de pesquisa é alterado
-            document.getElementById('search-input').addEventListener('input', function() {
+            document.getElementById('search-input').addEventListener('input', function () {
                 const query = this.value;
                 filterItems(query);
             });
-        
+
             // Aplica o filtro inicialmente com base no termo de pesquisa atual
             const query = document.getElementById('search-input').value;
             filterItems(query);
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function truncateText(element, maxLength) {
+                if (element.textContent.length > maxLength) {
+                    element.textContent = element.textContent.substr(0, maxLength) + '...';
+                }
+            }
+
+            // Encontre todos os elementos com a classe 'card-text'
+            const cardTexts = document.querySelectorAll('.card-text');
+            cardTexts.forEach(textElement => {
+                // Truncar o texto para o comprimento desejado
+                truncateText(textElement, 100); // Ajuste o valor 100 para o número de caracteres desejado
+            });
         });
     </script>
 </body>

@@ -13,5 +13,10 @@
     "sharp": "^0.33.3",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.6.13"
-  }
+  },
+  
+"scripts": {
+  "start": "node src/index",
+  "dev": "nodemon src/index"}
 }
+
