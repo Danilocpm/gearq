@@ -86,9 +86,13 @@ const ItemSchema = new mongoose.Schema({
     },
     imagePath: {
         type: String,
-        required: false // Set to true if you want to make it mandatory
-    }
+        required: false 
+    }, 
+
+
 });
+
+ItemSchema.index({ name: 'text' });
 
 // collection part
 const ItemCollection = new mongoose.model("items", ItemSchema);

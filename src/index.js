@@ -116,6 +116,16 @@ app.get("/servico", (req, res) => {
     res.render("servico");
 });
 
+app.get("/ecommerce", async (req, res) => {
+    try {
+        const items = await ItemCollection.find({}); // Fetch all items
+        res.render("ecommerce", { items: items }); // Pass the items to the template
+    } catch (error) {
+        console.error('Error fetching items:', error);
+        res.status(500).send('Error fetching items');
+    }
+});
+
 app.get('/item/:nome', async (req, res) => {
     const itemName = req.params.nome; // Get the item ID from the URL
     const item = await ItemCollection.findOne({ nome: itemName}); // Fetch the item from the database
@@ -161,6 +171,8 @@ app.get('/infos', checkUserLoggedIn, async function (req, res) {
         pages: pages
     });
 });
+
+
 
 
 // Register User
@@ -431,6 +443,7 @@ app.get('/getitemimage/:itemName', async (req, res) => {
         res.status(500).send('Error serving item image');
     }
 });
+
 
 
 // Define Port for Application

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>E-commerce Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <!-- Search Bar and Filters will go here -->
+        <!-- Adicione este campo de entrada de texto e botão dentro do seu formulário de pesquisa -->
+        <form id="search-form" action="/search-items" method="get">
+            <input type="text" id="search-input" name="query" placeholder="Pesquisar itens...">
+            <button type="submit">Pesquisar</button>
+        </form>
+
+        <!-- Item List will go here -->
+        <div class="row">
+            <% items.forEach(function(item) { %>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="/getitemimage/<%= item.nome %>" class="card-img-top" alt="<%= item.name %>">
+                        <div class="card-body">
+                            <!-- Display the item's name -->
+                            <h5 class="card-title">
+                                <%= item.nome %>
+                            </h5>
+                            <!-- Optionally, display the item's description or other details here -->
+                            <p class="card-text">
+                                <%= item.descricao %>
+                            </p>
+                            <!-- The "View Details" button -->
+                            <a href="/item/<%= item.nome %>" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Função para filtrar itens
+            function filterItems(query) {
+                const items = document.querySelectorAll('.card'); // Seleciona todos os itens
+                items.forEach(item => {
+                    const itemTitle = item.querySelector('.card-title').textContent.toLowerCase(); // Supondo que o título do item seja o nome do item
+                    if (itemTitle.includes(query.toLowerCase())) {
+                        item.style.display = 'block'; // Mostra o item se o título incluir o termo de pesquisa
+                    } else {
+                        item.style.display = 'none'; // Oculta o item se o título não incluir o termo de pesquisa
+                    }
+                });
+            }
+        
+            // Atualiza a lista de itens quando o termo de pesquisa é alterado
+            document.getElementById('search-input').addEventListener('input', function() {
+                const query = this.value;
+                filterItems(query);
+            });
+        
+            // Aplica o filtro inicialmente com base no termo de pesquisa atual
+            const query = document.getElementById('search-input').value;
+            filterItems(query);
+        });
+    </script>
+</body>
+
+</html>
