@@ -3,7 +3,7 @@ import path from "path";
 import collection from "./config.js";
 import ItemCollection from "./config_item.js";
 import paginas from "./config_pagina.js";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import inquirer from 'inquirer';
 import Swal from 'sweetalert2'
 import session from 'express-session';
