@@ -12,23 +12,16 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import sharp from 'sharp';
 import fs from 'fs';
+import upload from './multerConfig.js';
+import { storage, bucketName, folderName } from './config_cloud.js'; // Ajuste o caminho conforme necessário
 
 
 const app = express();
 // convert data into json format
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename: function(req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
 
 // Initialize multer with the defined storage
-const upload = multer({ storage: storage });
 
 // destiny for jpegs
 
@@ -306,56 +299,64 @@ app.post("/menu", async (req, res) => {
 
 app.post('/createitem', upload.single('image'), async (req, res) => {
     try {
-        // Extract form fields
+        // Extrair campos do formulário
         const { nome, descricao, portas, tipos_de_portas, portas_adicionais, tipos_de_portas_adicionais, protocolos, altura, largura, memoria, processador, MAC, performance, Capacidade_de_encaminhamento, capacidade_de_computacao, Frequência, watts } = req.body;
 
-        // Check if the image was uploaded
+        // Verificar se a imagem foi enviada
         if (!req.file) {
             return res.status(400).json({ message: 'No image uploaded' });
         }
 
-        // Compress the image using sharp
-        const compressedImageBuffer = await sharp(req.file.path)
-            .resize(800, 800, { fit: 'inside' }) // Resize the image to fit within 800x800 pixels, maintaining aspect ratio
-            .jpeg({ quality: 80 }) // Compress the image to JPEG format with 80% quality
-            .toBuffer(); // Convert the processed image back to a Buffer
-
-        // Save the compressed image to the same path to overwrite the original
-        await fs.promises.writeFile(req.file.path, compressedImageBuffer);
-
-        // Create a new item with the uploaded image path
-        const newItem = new ItemCollection({
-            nome,
-            descricao,
-            portas,
-            tipos_de_portas,
-            portas_adicionais,
-            tipos_de_portas_adicionais,
-            protocolos,
-            altura,
-            largura,
-            memoria,
-            processador,
-            MAC,
-            performance,
-            Capacidade_de_encaminhamento,
-            capacidade_de_computacao,
-            Frequência,
-            watts,
-            imagePath: req.file.path // Add the image path to the item
+        // Mover o arquivo para o Google Cloud Storage
+        const bucket = storage.bucket(bucketName);
+        const blob = bucket.file(`${folderName}${req.file.originalname}`);
+        const blobStream = blob.createWriteStream({
+            metadata: {
+                contentType: req.file.mimetype
+            }
         });
 
-        // Save the new item
-        await newItem.save();
+        blobStream.on('error', (err) => {
+            console.error('Erro ao enviar o arquivo para o Google Cloud Storage:', err);
+            res.status(500).send('Erro ao enviar o arquivo');
+        });
 
-        // Send success response
-        return res.status(200).json({ message: 'Item criado com sucesso' });
+        blobStream.on('finish', async () => {
+            console.log('Arquivo enviado com sucesso para o Google Cloud Storage');
+            // Atualizar o item com o novo imagePath
+            const newItem = new ItemCollection({
+                nome,
+                descricao,
+                portas,
+                tipos_de_portas,
+                portas_adicionais,
+                tipos_de_portas_adicionais,
+                protocolos,
+                altura,
+                largura,
+                memoria,
+                processador,
+                MAC,
+                performance,
+                Capacidade_de_encaminhamento,
+                capacidade_de_computacao,
+                Frequência,
+                watts,
+                imagePath: req.file.originalname
+            });
+
+            // Salvar o novo item
+            await newItem.save();
+            
+
+            // Enviar resposta de sucesso
+            return res.status(200).json({ message: 'Item criado com sucesso' });
+        });
+
+        blobStream.end(req.file.buffer);
     } catch (err) {
-        // Log the error for debugging
         console.error('Error creating item:', err);
-
-        // Send error response
-        return res.status(500).json({ message: 'Erro ao criar o item' });
+        res.status(500).json({ message: 'Erro ao criar o item' });
     }
 });
 // Promote
@@ -391,12 +392,32 @@ app.post('/upload', upload.single('profileImage'), async (req, res) => {
             return res.status(400).send({ error: 'Usuário não encontrado' });
         }
         console.log('Usuário encontrado, atualizando imagem de perfil...');
-        dbUser.profileImage = req.file.path;
-        await dbUser.save();
-        console.log('Imagem de perfil atualizada com sucesso');
-        // Atualiza a imagem de perfil na sessão do usuário
-        req.session.user.profileImage = dbUser.profileImage;
-        res.send({ success: 'Imagem de perfil atualizada com sucesso', imagePath: dbUser.profileImage });
+        // Mover o arquivo para o Google Cloud Storage
+        const bucket = storage.bucket(bucketName);
+        const blob = bucket.file(`${folderName}${req.file.originalname}`);
+        const blobStream = blob.createWriteStream({
+            metadata: {
+                contentType: req.file.mimetype
+            }
+        });
+
+        blobStream.on('error', (err) => {
+            console.error('Erro ao enviar o arquivo para o Google Cloud Storage:', err);
+            res.status(500).send('Erro ao enviar o arquivo');
+        });
+
+        blobStream.on('finish', async () => {
+            console.log('Arquivo enviado com sucesso para o Google Cloud Storage');
+            // Atualizar o caminho da imagem do perfil no banco de dados
+            dbUser.profileImage = `https://storage.googleapis.com/${bucketName}/${folderName}${req.file.originalname}`;
+            await dbUser.save();
+            console.log('Imagem de perfil atualizada com sucesso');
+            // Atualiza a imagem de perfil na sessão do usuário
+            req.session.user.profileImage = dbUser.profileImage;
+            res.send({ success: 'Imagem de perfil atualizada com sucesso', imagePath: dbUser.profileImage });
+        });
+
+        blobStream.end(req.file.buffer);
     } catch (err) {
         console.error('Erro ao atualizar a imagem do perfil:', err);
         res.status(500).send({ error: 'Erro ao atualizar a imagem do perfil' });
@@ -404,40 +425,30 @@ app.post('/upload', upload.single('profileImage'), async (req, res) => {
 });
 
 
-
 // Pega a imagem de perfil do user
 
 app.get('/getProfileImage', (req, res) => {
     const user = req.session.user; // assumindo que o usuário está na sessão
-    res.json({ imagePath: user.profileImage });
+    // Construa a URL completa para a imagem de perfil no Google Cloud Storage
+    const imagePath = user.profileImage;
+    res.json({ imagePath: imagePath });
 });
 
 app.get('/getitemimage/:itemName', async (req, res) => {
     try {
-        // Extract the item name from the URL
         const itemName = req.params.itemName;
-
-        // Query the database for the item
         const item = await ItemCollection.findOne({ nome: itemName });
-
-        // Check if the item was found
         if (!item) {
             return res.status(404).send('Item not found');
         }
-
-        // Check if the item has an image path
         if (!item.imagePath) {
             return res.status(404).send('No image associated with this item');
         }
-
-        // Construct the absolute path to the image file
-        const imagePath = path.join(__dirname, '..', item.imagePath);
-
-        // Log the constructed path for debugging
-        console.log('Attempting to serve image from path:', imagePath);
-
-        // Serve the image
-        res.sendFile(imagePath);
+        // Adicione o console.log aqui para verificar o caminho da imagem
+        console.log(item.imagePath);
+        
+        const imagePath = `https://storage.googleapis.com/${bucketName}/${folderName}${item.imagePath}`;
+        res.redirect(imagePath);
     } catch (err) {
         console.error('Error serving item image:', err);
         res.status(500).send('Error serving item image');
