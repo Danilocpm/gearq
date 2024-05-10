@@ -8,32 +8,47 @@
 </head>
 
 <body>
-    <div class="container mt-5">
-        <!-- Search Bar and Filters will go here -->
-        <form id="search-form" action="/search-items" method="get">
-            <input type="text" id="search-input" name="query" placeholder="Pesquisar itens...">
-            <button type="submit">Pesquisar</button>
-        </form>
-
-        <!-- Item List Container -->
+    <button id="menu-toggle" class="btn btn-primary">Menu</button>
+    <div class="left-sidebar">
+        <div class="col-md-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="/profile" role="tab"
+                    aria-controls="v-pills-profile" aria-selected="true">Perfil</a>
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="/home" role="tab"
+                    aria-controls="v-pills-home" aria-selected="false">Home</a>
+            </div>
+        </div>
+    </div>
+    <div class="container-envolvente">
         <div class="container mt-5">
-            <div class="row">
-                <% items.forEach(function(item) { %>
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <img src="/getitemimage/<%= item.nome %>" class="card-img-top" alt="<%= item.name %>">
-                            <div class="card-body">
+            <!-- Search Bar and Filters will go here -->
+            <form id="search-form" action="/search-items" method="get">
+                <input type="text" id="search-input" name="query" placeholder="Pesquisar itens...">
+            </form>
+
+            <!-- Item List Container -->
+            <!-- Item List Container -->
+            <div class="container mt-5 item-list-container">
+                <div class="row">
+                    <% items.forEach(function(item) { %>
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="/getitemimage/<%= item.nome %>" class="card-img" alt="<%= item.name %>">
+                            </div>
+                            <div class="card-content">
                                 <h5 class="card-title">
                                     <%= item.nome %>
                                 </h5>
                                 <p class="card-text">
                                     <%= item.descricao %>
                                 </p>
-                                <a href="/item/<%= item.nome %>" class="btn btn-primary">View Details</a>
+                                <div class="button-container">
+                                    <a href="/item/<%= item.nome %>" class="btn btn-primary">View Details</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <% }); %>
+                        <% }); %>
+                </div>
             </div>
         </div>
     </div>
@@ -41,30 +56,42 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Função para filtrar itens
-            function filterItems(query) {
-                const items = document.querySelectorAll('.card'); // Seleciona todos os itens
-                items.forEach(item => {
-                    const itemTitle = item.querySelector('.card-title').textContent.toLowerCase(); // Supondo que o título do item seja o nome do item
-                    if (itemTitle.includes(query.toLowerCase())) {
-                        item.style.display = 'block'; // Mostra o item se o título incluir o termo de pesquisa
-                    } else {
-                        item.style.display = 'none'; // Oculta o item se o título não incluir o termo de pesquisa
-                    }
-                });
-            }
-
-            // Atualiza a lista de itens quando o termo de pesquisa é alterado
-            document.getElementById('search-input').addEventListener('input', function () {
-                const query = this.value;
-                filterItems(query);
+        function filterItems(query) {
+            const items = document.querySelectorAll('.card');
+            items.forEach(item => {
+                const itemTitle = item.querySelector('.card-title').textContent.toLowerCase();
+                const itemDescription = item.querySelector('.card-text').textContent.toLowerCase();
+                const itemMatches = itemTitle.includes(query.toLowerCase()) || itemDescription.includes(query.toLowerCase())
+                if (query === '' || itemMatches) {
+                    item.classList.remove('card-hidden');
+                } else {
+                    item.classList.add('card-hidden');
+                }
             });
+        }
 
-            // Aplica o filtro inicialmente com base no termo de pesquisa atual
-            const query = document.getElementById('search-input').value;
+        function reorganizeItems() {
+            const row = document.querySelector('.row');
+            const allItems = Array.from(row.children);
+            row.innerHTML = '';
+            allItems.forEach(item => row.appendChild(item));
+        }
+
+        document.getElementById('search-input').addEventListener('input', function () {
+            const query = this.value.toLowerCase();
             filterItems(query);
+            reorganizeItems();
         });
+
+        document.getElementById('search-input').addEventListener('change', function () {
+            // Obter o valor atual do campo de pesquisa
+            const query = this.value.toLowerCase();
+
+            // Aplicar a filtragem com o valor atual
+            filterItems(query);
+            reorganizeItems();
+        });
+
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -78,8 +105,46 @@
             const cardTexts = document.querySelectorAll('.card-text');
             cardTexts.forEach(textElement => {
                 // Truncar o texto para o comprimento desejado
-                truncateText(textElement, 100); // Ajuste o valor 100 para o número de caracteres desejado
+                truncateText(textElement, 500); // Ajuste o valor 100 para o número de caracteres desejado
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menu-toggle');
+            const leftSidebar = document.querySelector('.left-sidebar');
+
+            // Verifica se há um estado salvo no localStorage
+            const sidebarVisible = localStorage.getItem('sidebarVisible') === 'true';
+
+            // Define o estado inicial do sidebar com base no localStorage
+            if (sidebarVisible) {
+                leftSidebar.style.display = 'block';
+            } else {
+                leftSidebar.style.display = 'none';
+            }
+
+            menuToggle.addEventListener('click', function () {
+                if (leftSidebar.style.display === 'none') {
+                    leftSidebar.style.display = 'block';
+                    // Salva o estado atual no localStorage
+                    localStorage.setItem('sidebarVisible', 'true');
+                } else {
+                    leftSidebar.style.display = 'none';
+                    // Salva o estado atual no localStorage
+                    localStorage.setItem('sidebarVisible', 'false');
+                }
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('v-pills-profile-tab').addEventListener('click', function () {
+            window.location.href = '/profile';
+        });
+    </script>
+    <script>
+        document.getElementById('v-pills-home-tab').addEventListener('click', function () {
+            window.location.href = '/home';
         });
     </script>
 </body>

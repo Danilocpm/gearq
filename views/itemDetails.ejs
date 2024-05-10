@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/itemDetails.css"> <!-- Assuming you have a custom CSS for item details -->
 </head>
 <body>
+    <button id="menu-toggle" class="btn btn-primary" onclick="window.location.href='/ecommerce'">Voltar</button>
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-8">
@@ -91,7 +92,6 @@
                 <div class="outer-container">
                     <div class="inner-box">
                     <img src="/getitemimage/<%= item.nome %>" alt="Item Image">
-                    <div id="loadingIndicator">Loading image...</div>
                 </div>
                 </div>
             </div>

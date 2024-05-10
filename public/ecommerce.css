@@ -1,38 +1,175 @@
-/* ecommerce.css */
 .card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    transition: 0.15s;
     overflow: hidden;
+    width: 360px;
+    height: 370px;
+    flex: 1 0 auto;
+    margin: 10px;
+    flex-basis: 50%;
+    border-radius: 10px;
+    border-color: #000;
 }
 
-.card-img-top {
-        width: 100%;
-        height: 200px; /* Ajuste este valor conforme necessário */
-        object-fit: cover; /* Isso faz com que a imagem cubra todo o espaço disponível sem distorção */
-    
+.card-image {
+    flex: 1;
+    max-width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.card-text {
-    min-height: 50px; /* Ajuste este valor conforme necessário */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Número de linhas antes de truncar */
-    -webkit-box-orient: vertical;
-    color: #333; /* Ajuste a cor conforme necessário */
-    border: 1px solid #ccc; /* Adiciona uma borda ao redor do texto */
-    padding: 5px; /* Adiciona algum padding para separar o texto da borda */
-    border-radius: 5px; /* Arredonda as bordas para um efeito mais suave */
+.card-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    height: auto;
+    object-fit: contain;
 }
-.card-body {
-    padding: 10px;
+
+.card-content {
+    flex: 1;
+    padding: 1rem;
+    box-sizing: border-box;
+    border-left: 1px solid black;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card-title {
-    margin-bottom: 5px;
+    text-align: center; /* Centraliza o texto */
+    font-weight: bold; /* Torna o texto mais evidente */
+    margin-bottom: 0.5rem; /* Ajusta o espaçamento abaixo do título */
+    border-bottom: 2px solid #000; /* Adiciona uma borda inferior */
+    padding-bottom: 0.5rem; /* Adiciona um padding abaixo da borda para separá-la do texto */
 }
 
+
 .card-text {
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .card {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .card-image,
+    .card-content {
+        flex: none;
+        max-width: 100%;
+    }
+}
+
+.card-hidden {
+    display: none;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+body {
+    background-image: url('img/wpprofile.jpg');
+    background-repeat: no-repeat; /* A imagem não se repetirá */
+    background-position: center; /* A imagem será centralizada */
+    background-size: cover; /* A imagem cobrirá todo o corpo */
+    font-family: Arial, sans-serif;
+    padding: 10px;
+}
+
+.container-envolvente {
+    margin: 0 auto; /* Centraliza o container envolvente */
+    max-width: 1200px; /* Define um tamanho máximo para o container */
+    padding: 20px; /* Adiciona algum padding interno */
+    height: 95vh; /* Define a altura do container para 100% da altura da janela do navegador */
+    overflow-y: auto; /* Adiciona scroll vertical se o conteúdo exceder a altura */
+    background-color: #0056b3;
+    border: 2px solid #104f92;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    border: none; /* Remove a borda */
+    border-radius: 5px; /* Arredonda os cantos */
+    font-size: 16px; /* Tamanho da fonte */
+    padding: 10px 20px; /* Espaçamento */
+    text-decoration: none; /* Remove o sublinhado */
+    display: inline-block; /* Permite o uso de padding */
+    transition: background-color 0.3s ease; /* Transição suave para a cor de fundo */
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100%; /* Ajuste conforme necessário */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+}
+
+#search-form {
+    display: flex;
+    justify-content: center; /* Centraliza os elementos dentro do formulário */
+    align-items: center; /* Alinha os elementos verticalmente no centro */
+    gap: 10px; /* Espaçamento entre os elementos do formulário */
+}
+
+#search-input {
+    padding: 8px 12px; /* Aumenta o padding para melhorar a usabilidade */
+    border: 1px solid #ced4da; /* Bordas para o campo de entrada */
+    border-radius: 4px; /* Bordas arredondadas para o campo de entrada */
+    transition: border-color 0.3s ease; /* Transição suave para a cor da borda */
+}
+
+#search-input:focus {
+    border-color: #66afe9; /* Cor da borda ao focar */
+    outline: none; /* Remove o contorno padrão do navegador */
+}
+
+#search-form button {
+    background-color: #007bff; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    border: none; /* Remove a borda do botão */
+    padding: 8px 12px; /* Aumenta o padding para melhorar a usabilidade */
+    border-radius: 4px; /* Bordas arredondadas para o botão */
+    cursor: pointer; /* Muda o cursor para um ponteiro ao passar o mouse */
+    transition: background-color 0.3s ease; /* Transição suave para a cor de fundo do botão */
+}
+
+#search-form button:hover {
+    background-color: #0056b3; /* Cor de fundo do botão ao passar o mouse */
+}
+
+.left-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 200px; /* Ajuste o tamanho conforme necessário */
+    padding: 20px;
+    box-sizing: border-box;
+    padding-top: 80px;
+    background-color: #104f92;
+}
+
+#menu-toggle {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000; /* Garante que o botão fique acima de outros elementos */
 }

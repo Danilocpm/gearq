@@ -11,7 +11,14 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for a 3D effect */
 }
 
-
+body {
+    background-image: url('img/wpprofile.jpg');
+    background-repeat: no-repeat; /* A imagem não se repetirá */
+    background-position: center; /* A imagem será centralizada */
+    background-size: cover; /* A imagem cobrirá todo o corpo */
+    font-family: Arial, sans-serif;
+    padding: 10px;
+}
 
 .inner-box {
     background-color: #ffffff; /* Example background color for the inner box */
@@ -100,4 +107,11 @@ body {
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 20px;
+}
+
+#menu-toggle {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000; /* Garante que o botão fique acima de outros elementos */
 }
