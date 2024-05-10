@@ -76,7 +76,7 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    Frequência: {
+    Frequencia: {
         type: String,
         required: false
     },

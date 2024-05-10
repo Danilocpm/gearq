@@ -300,7 +300,7 @@ app.post("/menu", async (req, res) => {
 app.post('/createitem', upload.single('image'), async (req, res) => {
     try {
         // Extrair campos do formulário
-        const { nome, descricao, portas, tipos_de_portas, portas_adicionais, tipos_de_portas_adicionais, protocolos, altura, largura, memoria, processador, MAC, performance, Capacidade_de_encaminhamento, capacidade_de_computacao, Frequência, watts } = req.body;
+        const { nome, descricao, portas, tipos_de_portas, portas_adicionais, tipos_de_portas_adicionais, protocolos, altura, largura, memoria, processador, MAC, performance, Capacidade_de_encaminhamento, capacidade_de_computacao, Frequencia, watts } = req.body;
 
         // Verificar se a imagem foi enviada
         if (!req.file) {
@@ -340,7 +340,7 @@ app.post('/createitem', upload.single('image'), async (req, res) => {
                 performance,
                 Capacidade_de_encaminhamento,
                 capacidade_de_computacao,
-                Frequência,
+                Frequencia,
                 watts,
                 imagePath: req.file.originalname
             });
